@@ -2,133 +2,104 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>PSK App Core</title>
-    <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <script src="/scripts/bundles/iframeBoot.js"></script>
-    <script src="/scripts/bundles/webshims.js"></script>
-    <script src="/scripts/bundles/pskruntime.js"></script>
+    <link href="/assets/css/main.css" rel="stylesheet" type="text/css"/>
+    <script type="module" src="/../webcardinal/webcardinal.js"></script>
+    <link rel="stylesheet" href="/../webcardinal/webcardinal.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+<!--
     <script type="module" src="/scripts/service/LoaderCommunication.js"></script>
+-->
+
+    <script>
+      if (window.frameElement) {
+        const iframeIdentity = window.frameElement.getAttribute('identity');
+
+        if (iframeIdentity) {
+          window.parent.document.dispatchEvent(
+            new CustomEvent(iframeIdentity, {
+              detail: {
+                status: 'completed',
+              },
+            })
+          );
+        }
+      }
+    </script>
 </head>
 
 <body>
-    <psk-app-root>
-        <psk-container>
-            <div class="global_container">
-                <aside>
-                    <psk-app-menu item-renderer="sidebar-renderer" hamburger-max-width="992">
-                        <psk-user-profile slot="before"></psk-user-profile>
+<webc-app-root preload="scripts/config.js">
+</webc-app-root>
+    <script src="/scripts/bundles/iframeBoot.js"></script>
+    <script src="/scripts/bundles/webshims.js"></script>
+    <script src="/scripts/bundles/pskruntime.js"></script>
 
-                        <div slot="after" class="exit-wrapper">
-                            <psk-button button-class="btn-exit" event-name="sign-out">
-                                <psk-icon icon="sign-out"></psk-icon>
-                                <psk-label label="Exit"></psk-label>
-                            </psk-button>
-                        </div>
+    <!--
+            <webc-container>
+                <div class="global_container">
+                    <aside>
+                        <psk-app-menu item-renderer="sidebar-renderer" hamburger-max-width="992">
+                            <psk-user-profile slot="before"></psk-user-profile>
 
-                    </psk-app-menu>
-                </aside>
-                <section>
-                    <psk-container controller-name="ExplorerController">
-                        <psk-page>
-                            <psk-condition condition="@conditionalExpressions.isLoading">
-                                <psk-ui-loader slot="condition-true" should-be-rendered="true"></psk-ui-loader>
-                    
-                                <psk-grid slot="condition-false">
-                                    <psk-breadcrumb-navigator mode="scroll" segments="@navigationLinks">
-                                    </psk-breadcrumb-navigator>
-                    
-                                    <psk-grid class="add-menu">
-                                        <psk-button-group label="@addMenuLabels.addLabel" icon="plus" icon-color="#ffffff" class="add-menu" classes="add-menu">
-                                            <psk-button event-name="new-file" class="btn-menu" button-class=' '>
-                                                <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive" icon="file"></psk-icon>
-                                                <psk-label label="@addMenuLabels.newFile"></psk-label>
-                                            </psk-button>
-                                            <psk-button event-name="new-folder" class="btn-menu" button-class=' '>
-                                                <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive" icon="folder"></psk-icon>
-                                                <psk-label label="@addMenuLabels.newFolder"></psk-label>
-                                            </psk-button>
-                                            <psk-files-chooser class="btn-menu" event-name="add-file-folder" label="@addMenuLabels.addFileLabel">
-                                                <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive" icon="file"></psk-icon>
-                                            </psk-files-chooser>
-                                            <psk-files-chooser class="btn-menu" event-name="add-file-folder" label="@addMenuLabels.addFolderLabel" accept="directory">
-                                                <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive" icon="folder"></psk-icon>
-                                            </psk-files-chooser>
-                                            <psk-button event-name="create-dossier" class="btn-menu" button-class=' '>
-                                                <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive" icon="lock"></psk-icon>
-                                                <psk-label label="@addMenuLabels.createDossierLabel"></psk-label>
-                                            </psk-button>
-                                            <psk-button event-name="receive-dossier" class="btn-menu" button-class=' '>
-                                                <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive" icon="upload"></psk-icon>
-                                                <psk-label label="@addMenuLabels.receiveDossierLabel"></psk-label>
-                                            </psk-button>
-                                        </psk-button-group>
-                    
-                                        <psk-condition condition="@isGridLayout" class="btn-switch-wrapper">
-                                            <psk-button slot="condition-true" title="@hoverLabels.switchGridHover" event-name="switch-layout" button-class="btn-switch">
-                                                <psk-icon color="#572a57" icon="th" class="right-menu"></psk-icon>
-                                            </psk-button>
-                    
-                                            <psk-button slot="condition-false" title="@hoverLabels.switchListHover" event-name="switch-layout" button-class="btn-switch">
-                                                <psk-icon color="#572a57" icon="th-list" class="right-menu"></psk-icon>
-                                            </psk-button>
-                                        </psk-condition>
-                                    </psk-grid>
-                    
-                                    <psk-page-loader id="wallet-content-container" slot="condition-false" page-url="@pageLoader.explorerContent"></psk-page-loader>
-                                </psk-grid>
-                            </psk-condition>
-                            <psk-list-feedbacks messages-to-display="5" time-alive="3000"></psk-list-feedbacks>
-                        </psk-page>
-                    </psk-container>
-                </section>
-            </div>
-        </psk-container>
-    </psk-app-root>
+                            <div slot="after" class="exit-wrapper">
+                                <psk-button button-class="btn-exit" event-name="sign-out">
+                                    <psk-icon icon="sign-out"></psk-icon>
+                                    <psk-label label="Exit"></psk-label>
+                                </psk-button>
+                            </div>
 
-    <script type="module" src="/cardinal/cardinal.esm.js"></script>
-    <script>
-        if (window.frameElement) {
-            let iframeIdentity = window.frameElement.getAttribute('identity');
+                        </psk-app-menu>
+                    </aside>
+                    <section>
 
-            //is just a hosted SSApp in a wallet
-            let isSimpleSSApp = false;
-            let iframeWindow = window.parent;
-            if (!iframeIdentity) {
-                isSimpleSSApp = true;
+                    </section>
+                </div>
+            </webc-container>-->
 
-                //parent.top does not fit the case when the wallet is an iframe in another application
-                let getWalletAppIframeWindow = function (parentWindow){
 
-                    if (parentWindow.frameElement) {
-                        if (parentWindow.frameElement.hasAttribute("identity")) {
-                            iframeIdentity = parentWindow.frameElement.getAttribute("identity")
-                            return parentWindow;
-                        }
-                    }
+<!--<script>
+  if (window.frameElement) {
+    let iframeIdentity = window.frameElement.getAttribute('identity');
 
-                    if(parentWindow === window.top){
-                        console.log("No wallet environment found");
-                        return;
-                    }
+    //is just a hosted SSApp in a wallet
+    let isSimpleSSApp = false;
+    let iframeWindow = window.parent;
+    if (!iframeIdentity) {
+      isSimpleSSApp = true;
 
-                    return getWalletAppIframeWindow(parentWindow.parent);
-                }
+      //parent.top does not fit the case when the wallet is an iframe in another application
+      let getWalletAppIframeWindow = function (parentWindow) {
 
-                iframeWindow = getWalletAppIframeWindow(iframeWindow);
-            }
-
-            if (iframeWindow) {
-                iframeWindow.parent.document.dispatchEvent(new CustomEvent(iframeIdentity, {
-                    detail: {
-                        status: 'completed'
-                    }
-                }));
-            }
+        if (parentWindow.frameElement) {
+          if (parentWindow.frameElement.hasAttribute("identity")) {
+            iframeIdentity = parentWindow.frameElement.getAttribute("identity")
+            return parentWindow;
+          }
         }
-    </script>
+
+        if (parentWindow === window.top) {
+          console.log("No wallet environment found");
+          return;
+        }
+
+        return getWalletAppIframeWindow(parentWindow.parent);
+      }
+
+      iframeWindow = getWalletAppIframeWindow(iframeWindow);
+    }
+
+    if (iframeWindow) {
+      iframeWindow.parent.document.dispatchEvent(new CustomEvent(iframeIdentity, {
+        detail: {
+          status: 'completed'
+        }
+      }));
+    }
+  }
+</script>-->
 </body>
 
 </html>

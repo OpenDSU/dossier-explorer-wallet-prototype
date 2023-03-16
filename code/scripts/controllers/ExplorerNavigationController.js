@@ -1,5 +1,3 @@
-import ContainerController from "../../cardinal/controllers/base-controllers/ContainerController.js";
-
 import FeedbackController from "./FeedbackController.js";
 
 import walletContentViewModel from '../view-models/walletContentViewModel.js';
@@ -7,7 +5,8 @@ import viewFileViewModel from "../view-models/modals/file-folder-modals/viewFile
 import Constants from "./Constants.js";
 import { getNewDossierServiceInstance } from "../service/NewDossierExplorerServiceWallet.js";
 
-export default class ExplorerNavigationController extends ContainerController {
+const {WebcController} = WebCardinal.controllers;
+export default class ExplorerNavigationController extends WebcController {
     constructor(element, history, model) {
         super(element, history);
 

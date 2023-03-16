@@ -1,4 +1,3 @@
-import ContainerController from "../../cardinal/controllers/base-controllers/ContainerController.js";
 import FileDownloader from "./file-folder-controllers/FileDownloader.js";
 import FeedbackController from "./FeedbackController.js";
 
@@ -19,10 +18,11 @@ import ExplorerNavigationController from "./ExplorerNavigationController.js";
 import Constants from "./Constants.js";
 import { getNewDossierServiceInstance } from "../service/NewDossierExplorerServiceWallet.js";
 
-export default class ExplorerController extends ContainerController {
+const {WebcController} = WebCardinal.controllers;
+export default class ExplorerController extends WebcController {
     constructor(element, history) {
         super(element, history);
-        this.model = this.setModel(this._getCleanProxyObject(rootModel));
+        this.model = this._getCleanProxyObject(rootModel);
         this._init(element, history);      
     }
 
