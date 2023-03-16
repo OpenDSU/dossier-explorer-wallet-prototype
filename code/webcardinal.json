@@ -1,0 +1,21 @@
+{
+  "theme": "blue-fluorite-theme",
+  "version": "0.2",
+  "identity": {
+    "name": "Dossier Explorer",
+    "email": "",
+    "avatar": "/assets/images/dossier-explorer.png"
+  },
+  "pagesFallback": {
+    "name": "404",
+    "src": "./404.html"
+  },
+  "pages": [
+    {
+      "name": "Home",
+      "tag": "explorer",
+      "src": "./explorer-page/explorer-page.html",
+      "path": "/"
+    }
+  ]
+}

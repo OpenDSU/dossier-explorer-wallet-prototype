@@ -1,0 +1,165 @@
+webc-app-menu[mode=vertical] {
+    --background: none;
+    flex-grow: 1;
+    width: 100%;
+    --min-width: 240px;
+}
+
+webc-app-error-toast {
+    z-index: 100;
+}
+
+webc-app-menu[mode=vertical] {
+    --min-width: 240px;
+}
+
+webc-app-identity {
+    pointer-events: none !important;
+}
+
+webc-modal::part(position) {
+    overflow: auto;
+}
+
+webc-modal::part(main) {
+    word-break: break-word;
+}
+
+webc-modal .header-color {
+    color: #565656 !important;
+}
+
+
+psk-page::part(page-main) {
+    height: 100%;
+}
+
+.standard-label {
+    font-size: 20px;
+}
+
+.wallet-ssi {
+    font-size: 20px;
+}
+
+.authorization {
+    font-size: 30px;
+}
+
+.webc-datatable--header {
+    font-size: 110%;
+    font-weight: bold;
+}
+
+
+.webc-datatable--header,
+.data-item {
+    border-top: 1px solid #dee2e6;
+    padding: 0.75rem;
+}
+
+.page-action-btn,
+.btn-secondary {
+    background-color: #328569;
+    box-shadow: none;
+    border: 1px solid #328569;
+    color: white;
+    padding: 8px 16px;
+    margin-right: 10px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    user-select: none;
+}
+
+.page-action-btn:disabled {
+    opacity: .65;
+}
+
+.page-action-btn:not(:disabled):hover,
+.page-action-btn:not(:disabled):active,
+.page-action-btn:not(:disabled):focus,
+.page-action-btn:not(:disabled):focus-visible {
+    background-color: #328569;
+    border: 1px solid #328569;
+    box-shadow: none;
+    outline: none;
+}
+
+.webc-datatable--header {
+    background: #F4F5F5;
+}
+
+.fist-table-header {
+    border-top-left-radius: 7px;
+}
+
+.last-table-header {
+    border-top-right-radius: 7px;
+}
+
+.validity .fa-ban,
+.validity .fa-check {
+    display: none;
+    font-size: 0.8rem;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination-container .next-page-btn {
+    margin-left: 15px;
+}
+
+.pagination-container .prev-page-btn {
+    margin-right: 15px;
+}
+
+*[userrights="readonly"] {
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+.data-item .btn-link {
+    color: #328569;
+    font-weight: bold;
+    padding: 0px;
+}
+
+.data-item .btn-link:hover {
+    color: #51AE8F;
+}
+
+.search-container {
+    background: #F9F9F9;
+    padding: 10px;
+    border-radius: 7px;
+    margin-bottom: 10px;
+}
+
+.search-container input {
+    border-radius: 4px;
+    margin-top: 5px;
+    padding: 3px;
+    border: 1px solid #328569;
+    font-size: 0.8rem;
+    width: 16%;
+    min-width: 240px;
+}
+
+.search-container input:focus {
+    outline: none;
+}
+
+.webc-datatable--header {
+    background: #9ACFBD;
+}
+
+button.btn.btn-primary:disabled {
+    border: 1px solid #dee2e6;
+    background: #dee2e6;
+    color: grey;
+}
