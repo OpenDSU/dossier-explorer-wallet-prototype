@@ -6,10 +6,6 @@
     "email": "",
     "avatar": "/assets/images/dossier-explorer.png"
   },
-  "pagesFallback": {
-    "name": "404",
-    "src": "./404.html"
-  },
   "pages": [
     {
       "name": "Home",

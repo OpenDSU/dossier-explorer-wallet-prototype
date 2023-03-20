@@ -1,11 +1,12 @@
-import ModalController from "../../../cardinal/controllers/base-controllers/ModalController.js";
 import FileDownloader from "./FileDownloader.js";
 import FeedbackController from "../FeedbackController.js";
 import Constants from "../Constants.js";
 
 const TEXT_MIME_TYPE = "text/";
 
-export default class ViewFileController extends ModalController {
+const {WebcController} = WebCardinal.controllers;
+
+export default class ViewFileController extends WebcController {
 
     constructor(element, history) {
         super(element, history);

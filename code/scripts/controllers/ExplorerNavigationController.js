@@ -152,7 +152,7 @@ export default class ExplorerNavigationController extends WebcController {
             ...viewFileViewModel,
             ...viewModel
         };
-        this.showModal('viewFileModal', viewModel, (err, response) => {
+        this.showModalFromTemplate('view-file-modal', viewModel, (err, response) => {
             console.log(err, response);
         });
     }
