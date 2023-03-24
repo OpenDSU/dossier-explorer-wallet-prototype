@@ -152,9 +152,12 @@ export default class ExplorerNavigationController extends WebcController {
             ...viewFileViewModel,
             ...viewModel
         };
-        this.showModalFromTemplate('view-file-modal', viewModel, (err, response) => {
-            console.log(err, response);
-        });
+
+        let modalModel = {
+            controller : "file-folder-controllers/FileController",
+            model: viewModel
+        };
+        this.showModalFromTemplate('view-file-modal', ()=>{}, ()=>{}, modalModel);
     }
 
     /* ############################## INTERNAL METHODS ############################## */
@@ -257,7 +260,6 @@ export default class ExplorerNavigationController extends WebcController {
     };
 
     _updateDossierContent = (err, dirContent) => {
-        debugger;
         let newContent = [];
 
         if (err) {

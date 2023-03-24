@@ -1,36 +1,33 @@
-<webc-container controller="file-folder-controllers/FileController">
-        <div class='content'></div>
-        <webc-spinner/>
-        <div slot="footer">
-            <div class="modal-buttons">
-                <div data-if="@isEditable">
+<div id="content" class='content'></div>
+<div slot="footer">
+    <div class="modal-buttons">
+        <div data-if="@isEditable">
+            <div slot="true">
+                <div data-if="@isEditing">
                     <div slot="true">
-                        <div data-if="@isEditing">
-                            <div slot="true">
-                                <div data-if="@closingConfirmation">
-                                    <div slot="true" class="unsaved-file">
+                        <div data-if="@closingConfirmation">
+                            <div slot="true" class="unsaved-file">
 
-                                        <div class="modal-buttons">
-                                            <button data-tag="save-exit">save and exit</button>
-                                            <button data-tag="dismiss-exit">dismiss and exit</button>
-                                            <button data-tag="cancel">cancel</button>
-                                        </div>
-                                    </div>
-                                    <div slot="false">
-                                        <button data-tag="save">save</button>
-                                    </div>
+                                <div class="modal-buttons">
+                                    <button data-tag="save-exit">save and exit</button>
+                                    <button data-tag="dismiss-exit">dismiss and exit</button>
+                                    <button data-tag="cancel">cancel</button>
                                 </div>
                             </div>
-                            <div slot="false" class="modal-buttons">
-                                <button data-tag="edit">edit</button>
-                                <button data-tag="download">download</button>
+                            <div slot="false">
+                                <button data-tag="save">save</button>
                             </div>
                         </div>
                     </div>
-                    <div slot="false">
+                    <div slot="false" class="modal-buttons">
+                        <button data-tag="edit">edit</button>
                         <button data-tag="download">download</button>
                     </div>
                 </div>
             </div>
+            <div slot="false">
+                <button data-tag="download">download</button>
+            </div>
         </div>
-</webc-container>
+    </div>
+</div>

@@ -279,6 +279,9 @@ class NewDossierExplorerService {
         });
     }
 
+    readFile(path, callback) {
+        this.rawDossier.readFile(path, callback);
+    }
 
 }
 
