@@ -257,6 +257,7 @@ export default class ExplorerNavigationController extends WebcController {
     };
 
     _updateDossierContent = (err, dirContent) => {
+        debugger;
         let newContent = [];
 
         if (err) {

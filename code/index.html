@@ -3,103 +3,35 @@
 
 <head>
     <meta charset="UTF-8"/>
-    <title>PSK App Core</title>
-    <link href="/assets/css/main.css" rel="stylesheet" type="text/css"/>
-    <script type="module" src="/../webcardinal/webcardinal.js"></script>
-    <link rel="stylesheet" href="/../webcardinal/webcardinal.css">
+    <title>DSU Explorer</title>
+    PLACEHOLDER_THAT_WILL_BE_REPLACED_BY_SW_OR_SERVER_WITH_BASE_TAG
+    <link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
+    <script type="module" src="webcardinal/webcardinal.js"></script>
+    <link rel="stylesheet" href="webcardinal/webcardinal.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-<!--
-    <script type="module" src="/scripts/service/LoaderCommunication.js"></script>
--->
-
     <script>
-      if (window.frameElement) {
-        const iframeIdentity = window.frameElement.getAttribute('identity');
+        if (window.frameElement) {
+            const iframeIdentity = window.frameElement.getAttribute('identity');
 
-        if (iframeIdentity) {
-          window.parent.document.dispatchEvent(
-            new CustomEvent(iframeIdentity, {
-              detail: {
-                status: 'completed',
-              },
-            })
-          );
+            if (iframeIdentity) {
+                window.parent.document.dispatchEvent(
+                    new CustomEvent(iframeIdentity, {
+                        detail: {
+                            status: 'completed',
+                        },
+                    })
+                );
+            }
         }
-      }
     </script>
 </head>
 
 <body>
-<webc-app-root style="height: 100%">
-</webc-app-root>
-    <script src="/scripts/bundles/iframeBoot.js"></script>
-    <script src="/scripts/bundles/webshims.js"></script>
-    <script src="/scripts/bundles/pskruntime.js"></script>
-
-    <!--
-            <webc-container>
-                <div class="global_container">
-                    <aside>
-                        <psk-app-menu item-renderer="sidebar-renderer" hamburger-max-width="992">
-                            <psk-user-profile slot="before"></psk-user-profile>
-
-                            <div slot="after" class="exit-wrapper">
-                                <psk-button button-class="btn-exit" event-name="sign-out">
-                                    <psk-icon icon="sign-out"></psk-icon>
-                                    <psk-label label="Exit"></psk-label>
-                                </psk-button>
-                            </div>
-
-                        </psk-app-menu>
-                    </aside>
-                    <section>
-
-                    </section>
-                </div>
-            </webc-container>-->
-
-
-<!--<script>
-  if (window.frameElement) {
-    let iframeIdentity = window.frameElement.getAttribute('identity');
-
-    //is just a hosted SSApp in a wallet
-    let isSimpleSSApp = false;
-    let iframeWindow = window.parent;
-    if (!iframeIdentity) {
-      isSimpleSSApp = true;
-
-      //parent.top does not fit the case when the wallet is an iframe in another application
-      let getWalletAppIframeWindow = function (parentWindow) {
-
-        if (parentWindow.frameElement) {
-          if (parentWindow.frameElement.hasAttribute("identity")) {
-            iframeIdentity = parentWindow.frameElement.getAttribute("identity")
-            return parentWindow;
-          }
-        }
-
-        if (parentWindow === window.top) {
-          console.log("No wallet environment found");
-          return;
-        }
-
-        return getWalletAppIframeWindow(parentWindow.parent);
-      }
-
-      iframeWindow = getWalletAppIframeWindow(iframeWindow);
-    }
-
-    if (iframeWindow) {
-      iframeWindow.parent.document.dispatchEvent(new CustomEvent(iframeIdentity, {
-        detail: {
-          status: 'completed'
-        }
-      }));
-    }
-  }
-</script>-->
+    <webc-app-root style="height: 100%"></webc-app-root>
+    <script src="scripts/bundles/iframeBoot.js"></script>
+    <script src="scripts/bundles/webshims.js"></script>
+    <script src="scripts/bundles/pskruntime.js"></script>
 </body>
 
 </html>

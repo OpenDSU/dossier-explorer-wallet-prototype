@@ -3,8 +3,6 @@
 <webc-container controller="ExplorerController">
     <div class="testest">
         <psk-condition condition="@conditionalExpressions.isLoading">
-            <psk-ui-loader slot="condition-true" should-be-rendered="true"></psk-ui-loader>
-
             <psk-grid slot="condition-false">
                 <psk-breadcrumb-navigator mode="scroll" segments="@navigationLinks">
                 </psk-breadcrumb-navigator>

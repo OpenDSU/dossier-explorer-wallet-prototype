@@ -1,4 +1,4 @@
-const explorerContent = "/pages/app/explorer-content.html";
+const explorerContent = "pages/app/explorer-content.html";
 
 const rootModel = {
     pageLoader: {

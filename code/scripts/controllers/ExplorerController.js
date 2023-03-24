@@ -93,7 +93,7 @@ export default class ExplorerController extends WebcController {
     }
 
     _checkForLandingApp() {
-        this.DSUStorage.getObject("apps/.landingApp", (err, landingApp) => {
+        /*this.DSUStorage.getObject("apps/.landingApp", (err, landingApp) => {
             if (!err && landingApp && landingApp.name) {
                 this.showModal("runApp", { name: landingApp.name });
                 this.dossierService.deleteFileFolder("apps/.landingApp", (err) => {
@@ -102,7 +102,7 @@ export default class ExplorerController extends WebcController {
                     }
                 });
             }
-        })
+        })*/
 
     }
 

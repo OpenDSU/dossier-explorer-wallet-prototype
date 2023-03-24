@@ -1,47 +1,36 @@
-<webc-container controller-name="file-folder-controllers/ViewFileController">
-    <webc-modal opened expanded="true" class="asset-modal">
-        <psk-label slot="title" class="title" label="@title"></psk-label>
-
-        <psk-condition condition="@conditionalExpressions.isLoading">
-            <psk-ui-loader should-be-rendered="true"> </psk-ui-loader>
-        </psk-condition>
-
-        <div class='content'>
-        </div>
-
-        <div class='footer'>
+<webc-container controller="file-folder-controllers/FileController">
+        <div class='content'></div>
+        <webc-spinner/>
+        <div slot="footer">
             <div class="modal-buttons">
-                <psk-condition condition="@textEditor.isEditable">
-                    <psk-condition slot="condition-true" condition="@isEditing">
+                <div data-if="@isEditable">
+                    <div slot="true">
+                        <div data-if="@isEditing">
+                            <div slot="true">
+                                <div data-if="@closingConfirmation">
+                                    <div slot="true" class="unsaved-file">
 
-                        <psk-condition slot='condition-true' condition='@closingConfirmation.opened'>
-                            <div class='unsaved-file' slot='condition-true'>
-                                <psk-label label="@closingConfirmation.disclaimerMessage"></psk-label>
-                                <psk-button-group class="modal-buttons">
-                                    <psk-button view-model="@closingConfirmation.buttons.saveAndExitButton"></psk-button>
-                                    <psk-button view-model="@closingConfirmation.buttons.dismissAndExitButton"></psk-button>
-                                    <psk-button view-model="@closingConfirmation.buttons.cancelButton"></psk-button>
-                                </psk-button-group>
+                                        <div class="modal-buttons">
+                                            <button data-tag="save-exit">save and exit</button>
+                                            <button data-tag="dismiss-exit">dismiss and exit</button>
+                                            <button data-tag="cancel">cancel</button>
+                                        </div>
+                                    </div>
+                                    <div slot="false">
+                                        <button data-tag="save">save</button>
+                                    </div>
+                                </div>
                             </div>
-
-                            <psk-button-group slot='condition-false' class="modal-buttons">
-                                <psk-button view-model="buttons.saveButton"> </psk-button>
-                            </psk-button-group>
-
-                        </psk-condition>
-
-
-
-                        <psk-button-group slot='condition-false' class="modal-buttons">
-                            <psk-button view-model="buttons.editButton"> </psk-button>
-                            <psk-button view-model="buttons.downloadButton"> </psk-button>
-                        </psk-button-group>
-                    </psk-condition>
-                    <psk-button slot="condition-false" view-model="buttons.downloadButton"> </psk-button>
-                </psk-condition>
+                            <div slot="false" class="modal-buttons">
+                                <button data-tag="edit">edit</button>
+                                <button data-tag="download">download</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div slot="false">
+                        <button data-tag="download">download</button>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <psk-label label="@error.message" class="error"></psk-label>
-    </webc-modal>
 </webc-container>
