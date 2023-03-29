@@ -283,6 +283,9 @@ class NewDossierExplorerService {
         this.rawDossier.readFile(path, callback);
     }
 
+    writeFile(path, data, callback) {
+        this.rawDossier.writeFile(path, data, callback);
+    }
 }
 
 

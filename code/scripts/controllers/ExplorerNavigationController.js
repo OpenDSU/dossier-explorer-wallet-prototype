@@ -155,7 +155,8 @@ export default class ExplorerNavigationController extends WebcController {
 
         let modalModel = {
             controller : "file-folder-controllers/FileController",
-            model: viewModel
+            model: viewModel,
+            // disableClosing: true
         };
         this.showModalFromTemplate('view-file-modal', ()=>{}, ()=>{}, modalModel);
     }
