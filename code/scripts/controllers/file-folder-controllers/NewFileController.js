@@ -1,91 +1,49 @@
-import ModalController from "../../../cardinal/controllers/base-controllers/ModalController.js";
-import FeedbackController from "../FeedbackController.js";
-import Constants from "../Constants.js";
-import { getNewDossierServiceInstance } from "../../service/NewDossierExplorerServiceWallet.js";
+import {getNewDossierServiceInstance} from "../../service/NewDossierExplorerServiceWallet.js"
 
-export default class NewFileController extends ModalController {
-    constructor(element, history) {
-        super(element, history);
-        this._init();
+const {WebcController} = WebCardinal.controllers;
+const {loader} = WebCardinal;
+
+export default class NewFileController extends WebcController {
+
+    constructor(element, history, ...args) {
+        super(element, history, ...args);
+        this.model = {
+            filename: ''
+        }
+
+        this.setEventListeners();
     }
 
-    async _init() {
-        this.feedbackController = new FeedbackController(this.model);
-        this.dossierService = await getNewDossierServiceInstance();
-
-        this._initListeners();
-    }
-
-    _initListeners() {
-        this.on('new-file-create', this._createNewFile);
-        this.on('new-file-cancel', () => {
-            this.responseCallback(undefined);
+    setEventListeners() {
+        this.onTagClick('cancel', () => {
+            this.cancel()
         });
-
-        this.model.onChange("fileNameInput.value", this._validateInput);
+        this.onTagClick('create', () => {
+            this.createFile();
+        });
     }
 
-    _createNewFile = (event) => {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-
-        let wDir = this.model.currentPath || '/';
-        if (wDir == '/') {
-            wDir = '';
+    cancel() {
+        this.element.destroy();
+    }
+    async createFile() {
+        loader.hidden = false;
+        this.service = await getNewDossierServiceInstance();
+        let fileContent = this.element.querySelector('#file-content-textarea').value;
+        let filePath = this.model.cwd;
+        if (filePath[filePath.length-1] !== '/') {
+            filePath += '/';
         }
-
-        const fileName = this.model.fileNameInput.value;
-        let fileContent = this.model.fileContentInput.value || '\n';
-        if (!fileContent.trim().length) {
-            fileContent = '\n';
-        }
-
-        this.feedbackController.setLoadingState(true);
-        this.dossierService.readDirDetailed(wDir, (err, { files }) => {
+        filePath += this.model.filename;
+        this.service.writeFile(filePath, fileContent, (err) => {
+            loader.hidden = true;
             if (err) {
-                this.feedbackController.setLoadingState();
-                this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
-            } else {
-                if (files.find((el) => el === fileName)) {
-                    this.feedbackController.setLoadingState();
-                    this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.entryExists);
-                } else {
-                    // If the name is not used, create the file
-                    this._uploadFile(wDir, fileName, fileContent);
-                }
+                // display warning for user in UI
             }
+            console.log("saved"); // display message for user in UI
+            this.model.setChainValue("refresh", true);
+            this.element.destroy();
         });
     }
-
-    _uploadFile = (wDir, fileName, data) => {
-        this.DSUStorage.setItem(`${wDir}/${fileName}`, data, (err, response) => {
-            this.feedbackController.setLoadingState();
-            if (err) {
-                console.error(err);
-                this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
-            } else {
-
-                this.responseCallback(undefined, {
-                    name: fileName,
-                    path: response
-                });
-            }
-        });
-    }
-
-    _validateInput = () => {
-        this.feedbackController.updateDisplayedMessage(Constants.ERROR);
-
-        const value = this.model.fileNameInput.value;
-        const isEmptyName = value.trim().length === 0;
-        this.model.setChainValue('buttons.createFileButton.disabled', isEmptyName);
-
-        if (isEmptyName) {
-            this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.nameNotValid);
-            return false;
-        }
-
-        return true;
-    };
 
 }

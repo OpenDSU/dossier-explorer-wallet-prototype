@@ -55,7 +55,8 @@ export default class ExplorerController extends WebcController {
         this.on('close', this._closeHandler)
         this.on('run-app', this._handleRunApplication);
 
-        this.on('new-file', this._addNewFileHandler);
+        this.onTagClick('create-file', this._addNewFileHandler);
+
         this.on('new-folder', this._addNewFolderHandler);
         this.on('add-file-folder', this._handleFileFolderUpload);
     };
@@ -291,26 +292,26 @@ export default class ExplorerController extends WebcController {
         });
     };
 
-    _addNewFileHandler = (event) => {
+    _addNewFileHandler = (model, target, event) => {
         event.stopImmediatePropagation();
 
-        let wDir = this.model.currentPath || '/';
-        if (wDir === '/') {
-            wDir = '';
-        }
+        let cwd = this.model.currentPath || '/';
 
-        newFileViewModel.currentPath = wDir;
-        this.showModal('newFileModal', newFileViewModel, (err, response) => {
-            if (err) {
-                return this.feedbackEmitter(err, null, Constants.ERROR_FEEDBACK_TYPE);
-            }
+        newFileViewModel.currentPath = cwd;
 
-            const successMessage = this.model[Constants.SUCCESS].fileCreated
-                .replace(Constants.NAME_PLACEHOLDER, response.name)
-                .replace(Constants.PATH_PLACEHOLDER, response.path);
-            this.feedbackEmitter(successMessage, null, Constants.SUCCESS_FEEDBACK_TYPE);
+        this.model.modalState = { cwd };
+        let modalOptions = {
+            controller : "file-folder-controllers/NewFileController",
+            model: this.model.modalState,
+            disableFooter: true,
+            modalTitle: "Create new file"
+        };
+
+        let refreshUI = () => {
             this.explorerNavigator.listDossierContent();
-        });
+        }
+        this.model.onChange('modalState.refresh', refreshUI);
+        this.showModalFromTemplate('new-file-modal', refreshUI, refreshUI, modalOptions);
     };
 
     _addNewFolderHandler = (event) => {

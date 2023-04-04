@@ -10,10 +10,11 @@
                 <psk-grid class="add-menu">
                     <psk-button-group label="@addMenuLabels.addLabel" icon="plus" icon-color="#ffffff" class="add-menu"
                                       classes="add-menu">
-                        <psk-button event-name="new-file" class="btn-menu" button-class=' '>
-                            <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive" icon="file"></psk-icon>
-                            <psk-label label="@addMenuLabels.newFile"></psk-label>
-                        </psk-button>
+                        <button data-tag="create-file" id="create-file-button">
+                            <span class="fa fa-file"></span>
+                            New file
+                        </button>
+
                         <psk-button event-name="new-folder" class="btn-menu" button-class=' '>
                             <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive"
                                       icon="folder"></psk-icon>
