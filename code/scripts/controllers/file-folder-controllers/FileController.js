@@ -13,6 +13,10 @@ export default class FileController extends WebcController {
             editMode: false,
             closingConfirmation: false
         }
+
+        this.textarea = document.getElementById('content');
+        this.fileContent = this.textarea.value;
+
         this.setEventListeners();
         this.displayFile();
     }
@@ -32,14 +36,22 @@ export default class FileController extends WebcController {
 
     async saveFile() {
         this.service = await getNewDossierServiceInstance();
-        const x = document.getElementById('content');
-        let newContent = x.value;
-        this.service.writeFile(this.model.title, newContent, (err) => {
+        this.fileContent = this.textarea.value;
+        this.service.writeFile(this.model.title, this.fileContent, (err) => {
             if (err) {
                 // display warning for user in UI
             }
             console.log("saved"); // display message for user in UI
         });
+
+        // const x = document.getElementById('content');
+        // let newContent = x.value;
+        // this.service.writeFile(this.model.title, newContent, (err) => {
+        //     if (err) {
+        //         // display warning for user in UI
+        //     }
+        //     console.log("saved"); // display message for user in UI
+        // });
     }
 
     setEventListeners() {
@@ -83,11 +95,11 @@ export default class FileController extends WebcController {
     }
     cancel() {
         this.model.editMode = false;
+        this.displayFile();
     }
     save() {
         this.model.editMode = false;
         this.saveFile();
-        this.displayFile();
         const x = document.getElementById('content');
         x.setAttribute('readonly', 'true');
     }
