@@ -15,29 +15,30 @@
                             New file
                         </button>
 
-                        <psk-button event-name="new-folder" class="btn-menu" button-class=' '>
-                            <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive"
-                                      icon="folder"></psk-icon>
-                            <psk-label label="@addMenuLabels.newFolder"></psk-label>
-                        </psk-button>
-                        <psk-files-chooser class="btn-menu" event-name="add-file-folder"
-                                           label="@addMenuLabels.addFileLabel">
-                            <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive" icon="file"></psk-icon>
-                        </psk-files-chooser>
-                        <psk-files-chooser class="btn-menu" event-name="add-file-folder"
-                                           label="@addMenuLabels.addFolderLabel" accept="directory">
-                            <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive"
-                                      icon="folder"></psk-icon>
-                        </psk-files-chooser>
-                        <psk-button event-name="create-dossier" class="btn-menu" button-class=' '>
-                            <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive" icon="lock"></psk-icon>
-                            <psk-label label="@addMenuLabels.createDossierLabel"></psk-label>
-                        </psk-button>
-                        <psk-button event-name="receive-dossier" class="btn-menu" button-class=' '>
-                            <psk-icon class="dossier-icon icon-medium menu-icon icon-responsive"
-                                      icon="upload"></psk-icon>
-                            <psk-label label="@addMenuLabels.receiveDossierLabel"></psk-label>
-                        </psk-button>
+                        <button data-tag="create-folder" id="create-folder-button">
+                            <span class="fa fa-folder"></span>
+                            New folder
+                        </button>
+
+                        <button data-tag="upload-file">
+                            <span class="fa fa-file"></span>
+                            Upload file
+                        </button>
+
+                        <button data-tag="upload-folder">
+                            <span class="fa fa-folder"></span>
+                            Upload folder
+                        </button>
+
+                        <button data-tag="create-dossier">
+                            <span class="fa fa-lock"></span>
+                            Create Dossier
+                        </button>
+
+                        <button data-tag="receive-dossier">
+                            <span class="fa fa-upload"></span>
+                            Receive Dossier
+                        </button>
                     </psk-button-group>
 
                     <psk-condition condition="@isGridLayout" class="btn-switch-wrapper">

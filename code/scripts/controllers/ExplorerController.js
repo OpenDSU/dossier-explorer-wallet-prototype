@@ -46,8 +46,6 @@ export default class ExplorerController extends WebcController {
         this.on('view-file', this._handleViewFile);
         this.on('export-dossier', this._handleDownload);
 
-        this.on('create-dossier', this._createDossierHandler);
-        this.on('receive-dossier', this._receiveDossierHandler);
         this.on('share-dossier', this._shareDossierHandler);
         this.on('delete', this._deleteHandler);
         this.on('rename', this._renameHandler);
@@ -56,9 +54,13 @@ export default class ExplorerController extends WebcController {
         this.on('run-app', this._handleRunApplication);
 
         this.onTagClick('create-file', this._addNewFileHandler);
+        this.onTagClick('create-folder', this._addNewFolderHandler);
 
-        this.on('new-folder', this._addNewFolderHandler);
-        this.on('add-file-folder', this._handleFileFolderUpload);
+        this.onTagClick('upload-file', this._uploadFileHandler);
+        this.onTagClick('upload-folder', this._uploadFolderHandler);
+
+        this.onTagClick('create-dossier', this._createDossierHandler);
+        this.onTagClick('receive-dossier', this._receiveDossierHandler);
     };
 
     _handleOptionsMenu = (event) => {
@@ -344,6 +346,14 @@ export default class ExplorerController extends WebcController {
         this.model.onChange('modalState.refresh', refreshUI);
         this.showModalFromTemplate('new-folder-modal', refreshUI, refreshUI, modalOptions);
     };
+
+    _uploadFileHandler = (event) => {
+
+    }
+
+    _uploadFolderHandler = (event) => {
+
+    }
 
     _handleFileFolderUpload = (event) => {
         event.stopImmediatePropagation();
