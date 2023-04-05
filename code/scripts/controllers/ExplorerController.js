@@ -137,7 +137,7 @@ export default class ExplorerController extends WebcController {
         this.model.isGridLayout = !this.model.isGridLayout;
     };
 
-    _createDossierHandler = (event) => {
+    _createDossierHandler = (model, target, event) => {
         event.preventDefault();
         event.stopImmediatePropagation();
 
@@ -159,7 +159,7 @@ export default class ExplorerController extends WebcController {
         this.showModalFromTemplate('create-dossier-modal', refreshUI, refreshUI, modalOptions);
     };
 
-    _receiveDossierHandler = (event) => {
+    _receiveDossierHandler = (model, target, event) => {
         event.preventDefault();
         event.stopImmediatePropagation();
 
@@ -324,7 +324,7 @@ export default class ExplorerController extends WebcController {
         this.showModalFromTemplate('new-file-modal', refreshUI, refreshUI, modalOptions);
     };
 
-    _addNewFolderHandler = (event) => {
+    _addNewFolderHandler = (model, target, event) => {
         event.stopImmediatePropagation();
 
         let cwd = this.model.currentPath || '/';
@@ -347,11 +347,11 @@ export default class ExplorerController extends WebcController {
         this.showModalFromTemplate('new-folder-modal', refreshUI, refreshUI, modalOptions);
     };
 
-    _uploadFileHandler = (event) => {
+    _uploadFileHandler = (model, target, event) => {
 
     }
 
-    _uploadFolderHandler = (event) => {
+    _uploadFolderHandler = (model, target, event) => {
 
     }
 
