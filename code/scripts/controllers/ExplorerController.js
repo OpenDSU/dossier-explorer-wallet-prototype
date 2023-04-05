@@ -139,18 +139,22 @@ export default class ExplorerController extends WebcController {
         event.preventDefault();
         event.stopImmediatePropagation();
 
-        createDossierViewModel.currentPath = this.model.currentPath;
-        this.showModal('createDossierModal', createDossierViewModel, (err, response) => {
-            if (err) {
-                return this.feedbackEmitter(err, null, Constants.ERROR_FEEDBACK_TYPE);
-            }
+        let cwd = this.model.currentPath || '/';
 
-            const successMessage = this.model[Constants.SUCCESS].dossierCreated
-                .replace(Constants.NAME_PLACEHOLDER, response.name)
-                .replace(Constants.PATH_PLACEHOLDER, response.path);
-            this.feedbackEmitter(successMessage, null, Constants.SUCCESS_FEEDBACK_TYPE);
+        createDossierViewModel.currentPath = cwd;
+
+        this.model.modalState = { cwd };
+        let modalOptions = {
+            controller : "file-folder-controllers/CreateDossierController",
+            model: this.model.modalState,
+            disableFooter: true,
+            modalTitle: "Create Dossier"
+        };
+        let refreshUI = () => {
             this.explorerNavigator.listDossierContent();
-        });
+        }
+        this.model.onChange('modalState.refresh', refreshUI);
+        this.showModalFromTemplate('create-dossier-modal', refreshUI, refreshUI, modalOptions);
     };
 
     _receiveDossierHandler = (event) => {
