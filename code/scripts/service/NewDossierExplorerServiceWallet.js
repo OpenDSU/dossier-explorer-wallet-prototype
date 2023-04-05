@@ -106,19 +106,8 @@ class NewDossierExplorerService {
         }
     }
 
-    getDSUKeySSI(path, dsuName, callback) {
-        return this.rawDossier.listMountedDossiers(path, (err, result) => {
-            if (err) {
-                return callback(err);
-            }
-
-            let dsu = result.find((dsr) => dsr.path === dsuName);
-            if (!dsu) {
-                return callback(`Dossier with the name ${dsuName} was not found in the mounted points!`);
-            }
-
-            callback(undefined, dsu.identifier);
-        });
+    getSSIForMount(path, callback) {
+        return this.rawDossier.getSSIForMount(path, callback);
     }
 
     importDossier(path, dossierName, SEED, callback) {
