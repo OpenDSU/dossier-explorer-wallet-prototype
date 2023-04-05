@@ -317,23 +317,24 @@ export default class ExplorerController extends WebcController {
     _addNewFolderHandler = (event) => {
         event.stopImmediatePropagation();
 
-        let wDir = this.model.currentPath || '/';
-        if (wDir === '/') {
-            wDir = '';
+        let cwd = this.model.currentPath || '/';
+
+        newFileViewModel.currentPath = cwd;
+
+        this.model.modalState = { cwd };
+        let modalOptions = {
+            controller : "file-folder-controllers/NewFolderController",
+            model: this.model.modalState,
+            disableFooter: true,
+            modalTitle: "Create new folder"
+        };
+
+        let refreshUI = () => {
+            this.explorerNavigator.listDossierContent();
         }
 
-        newFolderViewModel.currentPath = wDir;
-        this.showModal('newFolderModal', newFolderViewModel, (err, response) => {
-            if (err) {
-                return this.feedbackEmitter(err, null, Constants.ERROR_FEEDBACK_TYPE);
-            }
-
-            const successMessage = this.model[Constants.SUCCESS].folderCreated
-                .replace(Constants.NAME_PLACEHOLDER, response.name)
-                .replace(Constants.PATH_PLACEHOLDER, response.path);
-            this.feedbackEmitter(successMessage, null, Constants.SUCCESS_FEEDBACK_TYPE);
-            this.explorerNavigator.listDossierContent();
-        });
+        this.model.onChange('modalState.refresh', refreshUI);
+        this.showModalFromTemplate('new-folder-modal', refreshUI, refreshUI, modalOptions);
     };
 
     _handleFileFolderUpload = (event) => {

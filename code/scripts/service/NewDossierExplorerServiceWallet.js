@@ -135,18 +135,8 @@ class NewDossierExplorerService {
         callback("Raw Dossier is not available.");
     }
 
-    addFolder(path, folderName, callback) {
-        if (this.rawDossier) {
-            const folderPath = `${path}/${folderName}`;
-
-            this.rawDossier.addFolder(folderPath, folderPath, { ignoreMounts: false }, (err, res) => {
-                if (!err) {
-                    this.return(err, res);
-                }
-            });
-        }
-
-        callback("Raw Dossier is not available.");
+    createFolder(path, callback) {
+        this.rawDossier.createFolder(path, callback);
     }
 
     rename(oldPath, newPath, callback) {
