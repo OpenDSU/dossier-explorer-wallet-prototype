@@ -157,19 +157,23 @@ export default class ExplorerController extends WebcController {
         event.preventDefault();
         event.stopImmediatePropagation();
 
-        receiveDossierViewModel.currentPath = this.model.currentPath;
-        this.showModal('receiveDossierModal', receiveDossierViewModel, (err, response) => {
-            if (err) {
-                return this.feedbackEmitter(err, null, Constants.ERROR_FEEDBACK_TYPE);
-            }
+        let cwd = this.model.currentPath || '/';
 
-            const successMessage = this.model[Constants.SUCCESS].dossierImported
-                .replace(Constants.NAME_PLACEHOLDER, response.name)
-                .replace(Constants.PATH_PLACEHOLDER, response.path);
-            this.feedbackEmitter(successMessage, null, Constants.SUCCESS_FEEDBACK_TYPE);
+        receiveDossierViewModel.currentPath = cwd;
+        this.model.modalState = { cwd };
+        let modalOptions = {
+            controller : "file-folder-controllers/ReceiveDossierController",
+            model: this.model.modalState,
+            disableFooter: true,
+            modalTitle: "Receive Dossier"
+        };
+        let refreshUI = () => {
             this.explorerNavigator.listDossierContent();
-        });
-    };zzzzz
+        }
+
+        this.model.onChange('modalState.refresh', refreshUI);
+        this.showModalFromTemplate('receive-dossier-modal', refreshUI, refreshUI, modalOptions);
+    };
 
     _deleteHandler = (event) => {
         event.preventDefault();
@@ -319,7 +323,7 @@ export default class ExplorerController extends WebcController {
 
         let cwd = this.model.currentPath || '/';
 
-        newFileViewModel.currentPath = cwd;
+        newFolderViewModel.currentPath = cwd;
 
         this.model.modalState = { cwd };
         let modalOptions = {
