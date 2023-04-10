@@ -265,6 +265,15 @@ class NewDossierExplorerService {
     writeFile(path, data, callback) {
         this.rawDossier.writeFile(path, data, callback);
     }
+
+    beginBatch() {
+        this.rawDossier.beginBatch();
+    }
+
+    async commitBatchAsync() {
+        let commitBatchAsync = $$.promisify(this.rawDossier.commitBatch);
+        return commitBatchAsync();
+    }
 }
 
 

@@ -18,12 +18,15 @@ import ExplorerNavigationController from "./ExplorerNavigationController.js";
 import Constants from "./Constants.js";
 import { getNewDossierServiceInstance } from "../service/NewDossierExplorerServiceWallet.js";
 
+const {loader} = WebCardinal;
+
+
 const {WebcController} = WebCardinal.controllers;
 export default class ExplorerController extends WebcController {
     constructor(element, history) {
         super(element, history);
         this.model = this._getCleanProxyObject(rootModel);
-        this._init(element, history);      
+        this._init(element, history);
     }
 
     async _init(element, history){
@@ -56,7 +59,8 @@ export default class ExplorerController extends WebcController {
         this.onTagClick('create-file', this._addNewFileHandler);
         this.onTagClick('create-folder', this._addNewFolderHandler);
 
-        this.onTagClick('upload-file', this._uploadFileHandler);
+        this.element.querySelector('#upload-file').addEventListener('change', this._uploadFileHandler);
+        this.onTagClick('upload-file', this._triggerFileSelect);
         this.onTagClick('upload-folder', this._uploadFolderHandler);
 
         this.onTagClick('create-dossier', this._createDossierHandler);
@@ -347,8 +351,58 @@ export default class ExplorerController extends WebcController {
         this.showModalFromTemplate('new-folder-modal', refreshUI, refreshUI, modalOptions);
     };
 
-    _uploadFileHandler = (model, target, event) => {
+    _triggerFileSelect = (model, target, event) => {
+        event.stopImmediatePropagation();
+        this.element.querySelector('#upload-file').click();
+    }
 
+    reader = (file) => {
+        return new Promise((resolve, reject) => {
+            const fr = new FileReader();
+            fr.onload = () => resolve(fr.result);
+            fr.onerror = (err) => reject(err);
+            fr.readAsBinaryString(file);
+        })
+    }
+
+    _uploadFileHandler = async (event) => {
+        let cwd = this.model.currentPath || '/';
+
+        newFolderViewModel.currentPath = cwd;
+
+        let  files = this.element.querySelector('#upload-file').files;
+        if (files.length === 0) {
+            return;
+        }
+
+        let filePath = cwd;
+        if (filePath[filePath.length-1] !== '/') {
+            filePath += '/';
+        }
+
+        // create file:
+        loader.hidden = false;
+        this.service = await getNewDossierServiceInstance();
+
+        this.service.beginBatch();
+        for (let file of files) {
+            let fileName = file.name;
+            let writeFileAsync = $$.promisify(this.service.writeFile, this.service);
+            try {
+                let fileContent = await this.reader(file);
+                await writeFileAsync(filePath + fileName, fileContent);
+            }
+            catch (err) {
+                if (err) {
+                    // display warning for user in UI
+                }
+            }
+        }
+        await this.service.commitBatchAsync();
+
+        loader.hidden = true;
+        console.log("saved"); // display message for user in UI
+        this.explorerNavigator.listDossierContent();
     }
 
     _uploadFolderHandler = (model, target, event) => {
