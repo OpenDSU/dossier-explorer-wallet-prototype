@@ -2,8 +2,8 @@
 
 <webc-container controller="ExplorerController">
     <div class="testest">
-        <psk-condition condition="@conditionalExpressions.isLoading">
-            <psk-grid slot="condition-false">
+<!--        <psk-condition condition="@conditionalExpressions.isLoading">-->
+<!--            <psk-grid slot="condition-false">-->
                 <psk-breadcrumb-navigator mode="scroll" segments="@navigationLinks">
                 </psk-breadcrumb-navigator>
 
@@ -30,6 +30,7 @@
                             <span class="fa fa-folder"></span>
                             Upload folder
                         </button>
+                        <input multiple directory mozdirectory webkitdirectory type="file" id="upload-folder" style="display:none" />
 
                         <button data-tag="create-dossier">
                             <span class="fa fa-lock"></span>
@@ -57,8 +58,8 @@
 
                 <psk-page-loader id="wallet-content-container" slot="condition-false"
                                  page-url="@pageLoader.explorerContent"></psk-page-loader>
-            </psk-grid>
-        </psk-condition>
+<!--            </psk-grid>-->
+<!--        </psk-condition>-->
         <psk-list-feedbacks messages-to-display="5" time-alive="3000"></psk-list-feedbacks>
     </div>
 </webc-container>
