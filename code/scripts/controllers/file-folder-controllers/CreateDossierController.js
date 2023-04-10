@@ -40,7 +40,6 @@ export default class CreateDossierController extends WebcController {
                 // display warning for user in UI
             }
             console.log("created dossier"); // display message for user in UI
-            this.model.setChainValue("refresh", true);
 
             this.service.getSSIForMount(path + this.model.dossierName, (err, ssi) => {
                 if (err) {
