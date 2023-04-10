@@ -61,11 +61,17 @@ export default class ExplorerController extends WebcController {
 
         this.element.querySelector('#upload-file').addEventListener('change', this._uploadFileHandler);
         this.onTagClick('upload-file', this._triggerFileSelect);
-        this.onTagClick('upload-folder', this._uploadFolderHandler);
+        this.element.querySelector('#upload-folder').addEventListener('change', this._uploadFileHandler);
+        this.onTagClick('upload-folder', this._triggerFolderSelect);
 
         this.onTagClick('create-dossier', this._createDossierHandler);
         this.onTagClick('receive-dossier', this._receiveDossierHandler);
     };
+
+    refreshUI = () => {
+        this.explorerNavigator.listDossierContent();
+        setTimeout(this._initListeners, 2000);
+    }
 
     _handleOptionsMenu = (event) => {
         event.preventDefault();
@@ -156,11 +162,9 @@ export default class ExplorerController extends WebcController {
             disableFooter: true,
             modalTitle: "Create Dossier"
         };
-        let refreshUI = () => {
-            this.explorerNavigator.listDossierContent();
-        }
-        this.model.onChange('modalState.refresh', refreshUI);
-        this.showModalFromTemplate('create-dossier-modal', refreshUI, refreshUI, modalOptions);
+
+        this.model.onChange('modalState.refresh', this.refreshUI);
+        this.showModalFromTemplate('create-dossier-modal', this.refreshUI, this.refreshUI, modalOptions);
     };
 
     _receiveDossierHandler = (model, target, event) => {
@@ -177,12 +181,9 @@ export default class ExplorerController extends WebcController {
             disableFooter: true,
             modalTitle: "Receive Dossier"
         };
-        let refreshUI = () => {
-            this.explorerNavigator.listDossierContent();
-        }
 
-        this.model.onChange('modalState.refresh', refreshUI);
-        this.showModalFromTemplate('receive-dossier-modal', refreshUI, refreshUI, modalOptions);
+        this.model.onChange('modalState.refresh', this.refreshUI);
+        this.showModalFromTemplate('receive-dossier-modal', this.refreshUI, this.refreshUI, modalOptions);
     };
 
     _deleteHandler = (event) => {
@@ -321,11 +322,8 @@ export default class ExplorerController extends WebcController {
             modalTitle: "Create new file"
         };
 
-        let refreshUI = () => {
-            this.explorerNavigator.listDossierContent();
-        }
-        this.model.onChange('modalState.refresh', refreshUI);
-        this.showModalFromTemplate('new-file-modal', refreshUI, refreshUI, modalOptions);
+        this.model.onChange('modalState.refresh', this.refreshUI);
+        this.showModalFromTemplate('new-file-modal', this.refreshUI, this.refreshUI, modalOptions);
     };
 
     _addNewFolderHandler = (model, target, event) => {
@@ -343,17 +341,15 @@ export default class ExplorerController extends WebcController {
             modalTitle: "Create new folder"
         };
 
-        let refreshUI = () => {
-            this.explorerNavigator.listDossierContent();
-        }
-
-        this.model.onChange('modalState.refresh', refreshUI);
-        this.showModalFromTemplate('new-folder-modal', refreshUI, refreshUI, modalOptions);
+        this.model.onChange('modalState.refresh', this.refreshUI);
+        this.showModalFromTemplate('new-folder-modal', this.refreshUI, this.refreshUI, modalOptions);
     };
 
     _triggerFileSelect = (model, target, event) => {
         event.stopImmediatePropagation();
-        this.element.querySelector('#upload-file').click();
+        let fileSelect = this.element.querySelector('#upload-file');
+        fileSelect.value = '';
+        fileSelect.click();
     }
 
     reader = (file) => {
@@ -370,7 +366,7 @@ export default class ExplorerController extends WebcController {
 
         newFolderViewModel.currentPath = cwd;
 
-        let  files = this.element.querySelector('#upload-file').files;
+        let files = event.target.files;
         if (files.length === 0) {
             return;
         }
@@ -386,7 +382,7 @@ export default class ExplorerController extends WebcController {
 
         this.service.beginBatch();
         for (let file of files) {
-            let fileName = file.name;
+            let fileName = file.webkitRelativePath || file.name;
             let writeFileAsync = $$.promisify(this.service.writeFile, this.service);
             try {
                 let fileContent = await this.reader(file);
@@ -402,64 +398,17 @@ export default class ExplorerController extends WebcController {
 
         loader.hidden = true;
         console.log("saved"); // display message for user in UI
-        this.explorerNavigator.listDossierContent();
+        this.refreshUI();
     }
 
-    _uploadFolderHandler = (model, target, event) => {
-
-    }
-
-    _handleFileFolderUpload = (event) => {
+    _triggerFolderSelect = (model, target, event) => {
         event.stopImmediatePropagation();
+        let folderSelect = this.element.querySelector('#upload-folder');
+        folderSelect.value = '';
+        folderSelect.click();
+    }
 
-        let filesArray = event.data || [];
-        if (!filesArray.length) {
-            return this.feedbackEmitter(this.model.error.labels.noFileUploaded, null, Constants.ERROR_FEEDBACK_TYPE);
-        }
-
-        let wDir = this.model.currentPath || '/';
-        // Open the ui-loader
-        this.feedbackController.setLoadingState(true);
-        this.DSUStorage.uploadMultipleFiles(wDir, filesArray, { preventOverwrite: true }, (err, filesUploaded) => {
-            if (err) {
-                filesUploaded = err.data;
-            }
-
-            if (!Array.isArray(filesUploaded)) {
-                filesUploaded = [filesUploaded];
-            }
-            filesUploaded.forEach((entry) => {
-                let name, path, messageTemplate, messageType;
-
-                if (entry.error) {
-                    path = entry.file.path;
-                    if (entry.error.code === 30) {
-                        messageTemplate = this.model[Constants.SUCCESS].fileUploadExists;
-                        messageType = Constants.ERROR_FEEDBACK_TYPE;
-                    } else {
-                        messageTemplate = this.model[Constants.SUCCESS].fileUploaded;
-                        messageType = Constants.SUCCESS_FEEDBACK_TYPE;
-                    }
-                } else {
-                    path = entry;
-                    messageTemplate = this.model[Constants.SUCCESS].fileUploaded;
-                    messageType = Constants.SUCCESS_FEEDBACK_TYPE;
-                }
-
-                name = path.split('/').pop();
-                let displayedMessage = messageTemplate
-                    .replace(Constants.NAME_PLACEHOLDER, name)
-                    .replace(Constants.PATH_PLACEHOLDER, path);
-                this.feedbackEmitter(displayedMessage, null, messageType);
-            });
-
-            // Close the ui-loader as upload is finished
-            this.feedbackController.setLoadingState(false);
-            this.explorerNavigator.listDossierContent();
-        })
-    };
-
-    _handleDownload = (event) => {
+        _handleDownload = (event) => {
         event.preventDefault();
         event.stopImmediatePropagation();
 
