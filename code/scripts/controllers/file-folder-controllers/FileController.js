@@ -3,6 +3,8 @@ import {getNewDossierServiceInstance} from "../../service/NewDossierExplorerServ
 const {WebcController} = WebCardinal.controllers;
 const {loader} = WebCardinal;
 
+const TEXTAREA_ID = 'editor';
+
 export default class FileController extends WebcController {
 
     constructor(element, history, ...args) {
@@ -14,44 +16,69 @@ export default class FileController extends WebcController {
             closingConfirmation: false
         }
 
-        this.textarea = document.getElementById('content');
-        this.fileContent = this.textarea.value;
+        this.displayFileContent();
 
         this.setEventListeners();
-        this.displayFile();
     }
 
-    async displayFile() {
-        this.service = await getNewDossierServiceInstance();
-        this.service.readFile(this.model.title, (err, fileContent) => {
-            if (err) {
-                // display warning for user in UI
+    isImage() {
+        const filename = this.model.name;
+        const imageExtensions = [".png", ".jpg", ".jpeg", ".gif", ".jfif", ".pjpeg", ".pjp", ".svg", ".webp", ".bmp", ".ico"];
+        for (const extension of imageExtensions) {
+            if (filename.endsWith(extension)) {
+                return true;
             }
-            let x = document.getElementById('content');
-            x.value = fileContent.toString();
-            // this.element.querySelector("#content").value = fileContent.toString();
-            loader.hidden = true;
-        });
+        }
+        return false;
+    }
+
+    async getFile(filename) {
+        this.service = await getNewDossierServiceInstance();
+        let readFileAsync = $$.promisify(this.service.readFile, this.service);
+        return readFileAsync(filename);
+    }
+
+    convertToDataURL(data, subtype) {
+        return "data:image/" + subtype + ";base64," + btoa(data);
+    }
+
+    getMimeSubtype(filename) {
+        return filename.split('.').pop();
+    }
+
+    async displayFileContent() {
+        try {
+            let filepath = this.model.filePath;
+            let fileContent = await this.getFile(filepath);
+            this.contentDiv = document.getElementById('content');
+            if (this.isImage()) {
+                let image = document.createElement("img");
+                image.src = this.convertToDataURL(fileContent, this.getMimeSubtype(this.model.name));
+                this.contentDiv.appendChild(image);
+            }
+            else {
+                let textarea = document.createElement("textarea");
+                textarea.value = fileContent;
+                textarea.setAttribute('readonly', true);
+                textarea.id = TEXTAREA_ID;
+                this.contentDiv.appendChild(textarea);
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+        loader.hidden = true;
     }
 
     async saveFile() {
         this.service = await getNewDossierServiceInstance();
-        this.fileContent = this.textarea.value;
-        this.service.writeFile(this.model.title, this.fileContent, (err) => {
+        this.fileContent = this.querySelector('#' + TEXTAREA_ID).value;
+        this.service.writeFile(this.model.filePath, this.fileContent, (err) => {
             if (err) {
                 // display warning for user in UI
             }
             console.log("saved"); // display message for user in UI
         });
-
-        // const x = document.getElementById('content');
-        // let newContent = x.value;
-        // this.service.writeFile(this.model.title, newContent, (err) => {
-        //     if (err) {
-        //         // display warning for user in UI
-        //     }
-        //     console.log("saved"); // display message for user in UI
-        // });
     }
 
     setEventListeners() {
@@ -100,12 +127,12 @@ export default class FileController extends WebcController {
     save() {
         this.model.editMode = false;
         this.saveFile();
-        const x = document.getElementById('content');
+        const x = document.getElementById(TEXTAREA_ID);
         x.setAttribute('readonly', 'true');
     }
     edit() {
         this.model.editMode = true;
-        const x = document.getElementById('content');
+        const x = document.getElementById(TEXTAREA_ID);
         x.removeAttribute('readonly');
     }
     download() {}
@@ -114,7 +141,7 @@ export default class FileController extends WebcController {
         const filename = this.model.name;
         const editableExtensions = [".json", ".txt", ".js", ".css", ".html", ".csv"];
         for (const extension of editableExtensions) {
-            if (filename.includes(extension)) {
+            if (filename.endsWith(extension)) {
                 return true;
             }
         }
