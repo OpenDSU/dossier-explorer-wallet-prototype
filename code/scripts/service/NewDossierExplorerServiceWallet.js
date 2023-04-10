@@ -96,6 +96,9 @@ class NewDossierExplorerService {
                         if (err) {
                             return callback(err);
                         }
+                        if (path.endsWith("/")) {
+                            path = path.slice(0, -1); // deletes the last '/' character
+                        }
 
                         this.mountDossier(path, keySSI, dossierName, callback);
                     });
