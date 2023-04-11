@@ -4,6 +4,7 @@ const {WebcController} = WebCardinal.controllers;
 const {loader} = WebCardinal;
 
 const TEXTAREA_ID = 'editor';
+const IMG_ID = 'photoViewer';
 
 export default class FileController extends WebcController {
 
@@ -54,6 +55,7 @@ export default class FileController extends WebcController {
             if (this.isImage()) {
                 let image = document.createElement("img");
                 image.src = this.convertToDataURL(fileContent, this.getMimeSubtype(this.model.name));
+                image.id = IMG_ID;
                 this.contentDiv.appendChild(image);
             }
             else {
@@ -135,7 +137,24 @@ export default class FileController extends WebcController {
         const x = document.getElementById(TEXTAREA_ID);
         x.removeAttribute('readonly');
     }
-    download() {}
+    async download() {
+        const fileContent = await this.getFile(this.model.filePath);
+        const link = document.createElement('a');
+
+        if (this.isImage()) {
+            link.href = this.querySelector("#" + IMG_ID).getAttribute("src");
+        }
+        else {
+            let data = new Blob([fileContent], {type: "application/octet-stream"});
+            link.href = URL.createObjectURL(data);
+        }
+
+        link.setAttribute('download', this.model.name);
+        link.setAttribute('style', 'display:none');
+        this.element.appendChild(link);
+
+        link.click();
+    }
 
     checkIfEditable() {
         const filename = this.model.name;
