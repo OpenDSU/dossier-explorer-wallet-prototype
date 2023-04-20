@@ -2,3 +2,7 @@
     background-color: grey;
     height: 100%;
 }
+
+.hidden {
+    display: none;
+}

@@ -51,7 +51,7 @@ export default class ExplorerController extends WebcController {
 
         this.on('share-dossier', this._shareDossierHandler);
         this.on('delete', this._deleteHandler);
-        this.on('rename', this._renameHandler);
+        this.onTagClick('rename', this._renameHandler);
         this.on('move', this._moveHandler);
         this.on('close', this._closeHandler)
         this.on('run-app', this._handleRunApplication);
@@ -66,11 +66,13 @@ export default class ExplorerController extends WebcController {
 
         this.onTagClick('create-dossier', this._createDossierHandler);
         this.onTagClick('receive-dossier', this._receiveDossierHandler);
+
+        this.onTagClick('add-menu', this.toggleAddMenu);
+        this.element.querySelector('#add-menu-options').addEventListener('click', this.toggleAddMenu);
     };
 
     refreshUI = () => {
         this.explorerNavigator.listDossierContent();
-        setTimeout(this._initListeners, 2000);
     }
 
     _handleOptionsMenu = (event) => {
@@ -216,38 +218,53 @@ export default class ExplorerController extends WebcController {
         });
     };
 
-    _renameHandler = (event) => {
-        event.preventDefault();
+    _renameHandler = (model, target, event) => {
+        // event.preventDefault();
         event.stopImmediatePropagation();
 
-        const {
-            currentPath,
-            selectedItem
-        } = this._getSelectedItemAndWorkingDir(event.data);
+        let cwd = this.model.currentPath || '/';
 
-        const name = selectedItem.name;
-        if (name === 'manifest') {
-            return this.feedbackEmitter(this.model.error.labels.manifestManipulationError, null, Constants.ERROR_FEEDBACK_TYPE);
-        }
+        renameViewModel.currentPath = cwd;
 
-        renameViewModel.fileNameInput.value = name;
-        renameViewModel.oldFileName = name;
-        renameViewModel.fileType = selectedItem.type;
-        renameViewModel.currentPath = currentPath;
+        this.model.modalState = { cwd };
+        let modalOptions = {
+            controller : "file-folder-controllers/RenameController",
+            model: this.model.modalState,
+            disableFooter: true,
+            modalTitle: "Rename"
+        };
 
-        this.showModal('renameModal', renameViewModel, (err, response) => {
-            if (err) {
-                return this.feedbackEmitter(err, null, Constants.ERROR_FEEDBACK_TYPE);
-            }
+        this.model.onChange('modalState.refresh', this.refreshUI);
+        this.showModalFromTemplate('rename-modal', this.refreshUI, this.refreshUI, modalOptions);
 
-            if (!response.cancel) {
-                const successMessage = this.model[Constants.SUCCESS].rename
-                    .replace(Constants.FROM_PLACEHOLDER, response.from)
-                    .replace(Constants.TO_PLACEHOLDER, response.to);
-                this.feedbackEmitter(successMessage, null, Constants.SUCCESS_FEEDBACK_TYPE);
-                this.explorerNavigator.listDossierContent();
-            }
-        });
+        // const {
+        //     currentPath,
+        //     selectedItem
+        // } = this._getSelectedItemAndWorkingDir(event.data);
+        //
+        // const name = selectedItem.name;
+        // if (name === 'manifest') {
+        //     return this.feedbackEmitter(this.model.error.labels.manifestManipulationError, null, Constants.ERROR_FEEDBACK_TYPE);
+        // }
+        //
+        // renameViewModel.fileNameInput.value = name;
+        // renameViewModel.oldFileName = name;
+        // renameViewModel.fileType = selectedItem.type;
+        // renameViewModel.currentPath = currentPath;
+        //
+        // this.showModal('renameModal', renameViewModel, (err, response) => {
+        //     if (err) {
+        //         return this.feedbackEmitter(err, null, Constants.ERROR_FEEDBACK_TYPE);
+        //     }
+        //
+        //     if (!response.cancel) {
+        //         const successMessage = this.model[Constants.SUCCESS].rename
+        //             .replace(Constants.FROM_PLACEHOLDER, response.from)
+        //             .replace(Constants.TO_PLACEHOLDER, response.to);
+        //         this.feedbackEmitter(successMessage, null, Constants.SUCCESS_FEEDBACK_TYPE);
+        //         this.explorerNavigator.listDossierContent();
+        //     }
+        // });
     };
 
     _moveHandler = (event) => {
@@ -471,5 +488,17 @@ export default class ExplorerController extends WebcController {
 
     _getCleanProxyObject = (obj) => {
         return obj ? JSON.parse(JSON.stringify(obj)) : null;
+    }
+
+    toggleAddMenu = (model, target, event) => {
+        if(!event){
+            //this is click event from file type inputs
+            event = model;
+            if(event.target.type === "file"){
+                return;
+            }
+        }
+        let options = this.element.querySelector('#add-menu-options');
+        options.classList.toggle("hidden");
     }
 }

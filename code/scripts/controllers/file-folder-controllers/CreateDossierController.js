@@ -46,6 +46,7 @@ export default class CreateDossierController extends WebcController {
                     // display warning for user in UI
                 }
                 this.model.keySSI = ssi;
+                this.model.setChainValue("refresh", true);
             });
         });
     }
