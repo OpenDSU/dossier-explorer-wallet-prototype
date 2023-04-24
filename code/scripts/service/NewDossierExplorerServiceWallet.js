@@ -46,6 +46,38 @@ class NewDossierExplorerService {
         callback("Raw Dossier is not available.");
     }
 
+    async listDirContentAsync(path) {
+        if (this.rawDossier) {
+            let content = await $$.promisify(rawDossier.readDir, rawDossier)(path, CONSTANTS.WITH_FILE_TYPES);
+            let stateObj = {
+                    path: path === '/' ? '' : path,
+                    content: [],
+                    rawDossier: this.rawDossier
+                }
+
+            for (let element in content.files) {
+                stateObj.content.push({
+                    name: content.files[element],
+                    type: "file"
+                });
+            }
+            for (let element in content.folders) {
+                stateObj.content.push({
+                    name: content.folders[element],
+                    type: "directory"
+                });
+            }
+            for (let element in content.mounts) {
+                stateObj.content.push({
+                    name: content.mounts[element],
+                    type: "DSU"
+                });
+            }
+            return stateObj;
+        }
+        throw Error("Raw Dossier is not available.");
+    }
+
     getDSUSeedSSI(path, dossierName, callback) {
         if (this.rawDossier) {
             return this.getDSUKeySSI(path, dossierName, callback);
