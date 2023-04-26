@@ -1,0 +1,13 @@
+.hidden {
+    display: none;
+}
+
+.table-content {
+    display: flex;
+}
+
+.table-content div {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+}

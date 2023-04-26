@@ -6,13 +6,23 @@
         </div>
 
         <div class="table-content" data-for="@content">
-            <div>{{ @name }}</div>
-            <div>{{ @type }}</div>
+            <div class="table-item">
+<!--            the `style="pointer-events:none"` property is used so that the event listener captures clicks
+                on the whole row of the table, not only clicks on the name or type of a certain element-->
+                <div style="pointer-events:none" class="item-name">{{ @name }}</div>
+                <div style="pointer-events:none">{{ @type }}</div>
+            </div>
         </div>
     </div>
 
 </webc-container>
 
+<!--    add:
+        -   double click event listener --- https://developer.mozilla.org/en-US/docs/Web/API/Element/dblclick_event
+        -   single click event listener - select element
+        -   context menu button
+        -   context menu button event listener
+        -->
 
 <!--<psk-grid class="content-wrapper" data-grid-layout="@isGridLayout">-->
 

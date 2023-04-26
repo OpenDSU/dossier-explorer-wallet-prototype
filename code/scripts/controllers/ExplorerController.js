@@ -71,12 +71,8 @@ export default class ExplorerController extends WebcController {
         this.element.querySelector('#add-menu-options').addEventListener('click', this.toggleAddMenu);
     };
 
-    refreshUI = async () => {
-        this.service = await getNewDossierServiceInstance();
-        let cwd = this.model.currentPath || "/";
-        await this.service.listDirContentAsync(cwd);
-
-        // this.explorerNavigator.listDossierContent();
+    refreshUI = () => {
+        this.explorerNavigator.listDossierContent();
     }
 
     _handleOptionsMenu = (event) => {
