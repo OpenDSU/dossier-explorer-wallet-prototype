@@ -62,15 +62,17 @@
                         <button data-tag="context-menu">context menu</button>
 
                         <div class="hidden context-menu" name="@name">
-                            <button data-tag="view-file" data-type="@type">
-                                <span class="fa fa-eye"></span>
-                                View File
-                            </button>
+                            <div class="files-only" data-type="@type">
+                                <button data-tag="view-file">
+                                    <span class="fa fa-eye"></span>
+                                    View File
+                                </button>
 
-                            <button data-tag="rename">
-                                <span class="fa fa-pencil"></span>
-                                Rename
-                            </button>
+                                <button data-tag="rename">
+                                    <span class="fa fa-pencil"></span>
+                                    Rename
+                                </button>
+                            </div>
 
                             <button data-tag="download-file">
                                 <span class="fa fa-download"></span>

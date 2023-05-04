@@ -484,7 +484,7 @@ export default class ExplorerController extends WebcController {
             }
         }
         if (model.type !== "file") {
-            let fileOption = this.element.querySelector(`button[data-type="${model.type}"]`);
+            let fileOption = this.element.querySelector(`div[data-type="${model.type}"]`);
             fileOption.classList.add("hidden");
         }
 
