@@ -73,11 +73,12 @@ export default class ExplorerController extends WebcController {
 
         this.onTagClick('view-file', this._handleViewFile);
         // this.on('view-file', this._handleViewFile);
+        this.onTagClick('rename', this._renameHandler);
+
         this.on('export-dossier', this._handleDownload);
 
         this.on('share-dossier', this._shareDossierHandler);
         this.on('delete', this._deleteHandler);
-        this.onTagClick('rename', this._renameHandler);
         this.on('move', this._moveHandler);
         this.on('close', this._closeHandler)
         this.on('run-app', this._handleRunApplication);
@@ -249,10 +250,11 @@ export default class ExplorerController extends WebcController {
         event.stopImmediatePropagation();
 
         let cwd = this.model.currentPath || '/';
+        let filename = event.target.parentElement.parentElement.querySelector('.item-name').textContent;
 
         renameViewModel.currentPath = cwd;
 
-        this.model.modalState = { cwd };
+        this.model.modalState = { cwd, filename };
         let modalOptions = {
             controller : "file-folder-controllers/RenameController",
             model: this.model.modalState,
