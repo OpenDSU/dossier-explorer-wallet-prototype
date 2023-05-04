@@ -46,8 +46,43 @@
 
                 </div>
 
-                <psk-page-loader id="wallet-content-container" slot="condition-false"
-                                 page-url="@pageLoader.explorerContent"></psk-page-loader>
+        <div id="explorer-content">
+            <div id="file-system">
+                <div class="table-header">
+                    <div>Name</div>
+                    <div>Type</div>
+                </div>
+
+                <div class="table-content" data-for="@content">
+                    <div class="table-item">
+                        <!--            the `style="pointer-events:none"` property is used so that the event listener captures clicks
+                                        on the whole row of the table, not only clicks on the name or type of a certain element-->
+                        <div style="pointer-events:none" class="item-name">{{ @name }}</div>
+                        <div style="pointer-events:none">{{ @type }}</div>
+                        <button data-tag="context-menu">context menu</button>
+
+                        <div class="hidden context-menu" name="@name">
+                            <button data-tag="view-file">
+                                <span class="fa fa-eye"></span>
+                                View File
+                            </button>
+
+                            <button data-tag="download-file">
+                                <span class="fa fa-download"></span>
+                                Download
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+<!--                <psk-page-loader id="wallet-content-container" slot="condition-false"-->
+<!--                                 page-url="@pageLoader.explorerContent"></psk-page-loader>-->
 <!--            </psk-grid>-->
 <!--        </psk-condition>-->
         <psk-list-feedbacks messages-to-display="5" time-alive="3000"></psk-list-feedbacks>

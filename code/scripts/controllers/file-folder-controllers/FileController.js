@@ -124,7 +124,9 @@ export default class FileController extends WebcController {
     }
     cancel() {
         this.model.editMode = false;
-        this.displayFile();
+        let textarea = this.element.querySelector('#' + TEXTAREA_ID);
+        textarea.remove();
+        this.displayFileContent();
     }
     save() {
         this.model.editMode = false;

@@ -46,7 +46,33 @@ export default class ExplorerController extends WebcController {
         this.on("switch-layout", this._handleSwitchLayout);
         this.on('open-options-menu', this._handleOptionsMenu);
 
-        this.on('view-file', this._handleViewFile);
+        let tableItems = this.element.querySelectorAll(".table-content");
+
+        // event listeners for clicking and double-clicking items from the file system:
+        tableItems.forEach((myDiv) => {
+            myDiv.addEventListener("click", (event) => {
+                if (event.target.classList.contains("table-item")) {
+                    console.log("The table item was clicked");
+                    // this should select the element from the table
+
+                }
+            });
+        });
+        tableItems.forEach((myDiv) => {
+            myDiv.addEventListener("dblclick", (event) => {
+                if (event.target.classList.contains("table-item")) {
+                    console.log("The table item was double-clicked!");
+                    this._handleViewFile(event);
+                    // if the double clicked element is a file, this should open the view-file-modal
+                    // if the double clicked element is a directory/DSU, this should navigate there
+                }
+            });
+        });
+
+        this.onTagClick('context-menu', this.showContextMenu)
+
+        this.onTagClick('view-file', this._handleViewFile);
+        // this.on('view-file', this._handleViewFile);
         this.on('export-dossier', this._handleDownload);
 
         this.on('share-dossier', this._shareDossierHandler);
@@ -446,11 +472,32 @@ export default class ExplorerController extends WebcController {
         fileDownloader.downloadFile();
     }
 
-    _handleViewFile = (event) => {
-        event.preventDefault();
-        event.stopImmediatePropagation();
+    showContextMenu = (model, target, event) => {
+        console.log('clicked on context menu');
+        if(!event){
+            //this is click event from file type inputs
+            event = model;
+            if(event.target.type === "file"){
+                return;
+            }
+        }
+        let contextMenu = this.element.querySelector(`div[name="${model.name}"]`);
+        contextMenu.classList.toggle("hidden");
+    }
 
-        const { currentPath, selectedItem } = this._getSelectedItemAndWorkingDir(event.data);
+    _handleViewFile = (model, target, event) => {
+        let selectedItemName;
+        if (!event) {   // if the _handleViewFile function is triggered by double-clicking the file
+            event = model;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            selectedItemName = event.target.querySelector('.item-name').textContent;
+        }
+        else {          // if the _handleViewFile function is triggered by the context menu "View file" button
+            selectedItemName = event.target.parentElement.parentElement.querySelector('.item-name').textContent;
+        }
+
+        const { currentPath, selectedItem } = this._getSelectedItemAndWorkingDir(selectedItemName);
         if (!selectedItem) {
             console.error(`No item selected to be downloaded!`);
             return;
