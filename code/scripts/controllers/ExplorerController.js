@@ -481,6 +481,11 @@ export default class ExplorerController extends WebcController {
                 return;
             }
         }
+        if (model.type !== "file") {
+            let fileOption = this.element.querySelector(`button[data-type="${model.type}"]`);
+            fileOption.classList.add("hidden");
+        }
+
         let contextMenu = this.element.querySelector(`div[name="${model.name}"]`);
         contextMenu.classList.toggle("hidden");
     }
