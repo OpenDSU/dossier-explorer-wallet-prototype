@@ -20,6 +20,8 @@ import { getNewDossierServiceInstance } from "../service/NewDossierExplorerServi
 
 const {loader} = WebCardinal;
 
+const TEXTAREA_ID = 'editor';
+const IMG_ID = 'photoViewer';
 
 const {WebcController} = WebCardinal.controllers;
 export default class ExplorerController extends WebcController {
@@ -75,7 +77,8 @@ export default class ExplorerController extends WebcController {
         // this.on('view-file', this._handleViewFile);
         this.onTagClick('rename', this._renameHandler);
 
-        this.on('export-dossier', this._handleDownload);
+        // this.on('export-dossier', this._handleDownload);
+        this.onTagClick('download-file', this._handleDownload);
 
         this.on('share-dossier', this._shareDossierHandler);
         this.on('delete', this._deleteHandler);
@@ -250,7 +253,8 @@ export default class ExplorerController extends WebcController {
         event.stopImmediatePropagation();
 
         let cwd = this.model.currentPath || '/';
-        let filename = event.target.parentElement.parentElement.querySelector('.item-name').textContent;
+        let selectedItem = event.target.parentElement.parentElement.parentElement;
+        let filename = selectedItem.querySelector('.item-name').textContent;
 
         renameViewModel.currentPath = cwd;
 
@@ -453,20 +457,64 @@ export default class ExplorerController extends WebcController {
         folderSelect.click();
     }
 
-        _handleDownload = (event) => {
-        event.preventDefault();
-        event.stopImmediatePropagation();
+    isImage(filename) {
+        const imageExtensions = [".png", ".jpg", ".jpeg", ".gif", ".jfif", ".pjpeg", ".pjp", ".svg", ".webp", ".bmp", ".ico"];
+        for (const extension of imageExtensions) {
+            if (filename.endsWith(extension)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-        const selectedItem = this._getSelectedItem(event.data);
-        if (!selectedItem) {
-            console.error(`No item selected to be downloaded!`);
-            return;
+    async getFile(filename) {
+        this.service = await getNewDossierServiceInstance();
+        let readFileAsync = $$.promisify(this.service.readFile, this.service);
+        return readFileAsync(filename);
+    }
+
+    getMimeSubtype(filename) {
+        return filename.split('.').pop();
+    }
+
+    convertToDataURL(data, subtype) {
+        return "data:image/" + subtype + ";base64," + btoa(data);
+    }
+
+    _handleDownload = async (selectedItem) => {
+        let selectedItemName = selectedItem.name;
+
+        const fileContent = await this.getFile(selectedItemName);
+        const link = document.createElement('a');
+
+        if (this.isImage(selectedItemName)) {
+            link.href = this.convertToDataURL(fileContent, this.getMimeSubtype(selectedItemName));
+        }
+        else {
+            let data = new Blob([fileContent], {type: "application/octet-stream"});
+            link.href = URL.createObjectURL(data);
         }
 
-        const itemViewModel = this._getCleanProxyObject(selectedItem);
-        if (itemViewModel.type === 'file') {
-            this._handleDownloadFile(this.model.currentPath, itemViewModel.name);
-        }
+        link.setAttribute('download', selectedItemName);
+        link.setAttribute('style', 'display:none');
+        this.element.appendChild(link);
+
+        link.click();
+
+
+        // event.preventDefault();
+        // event.stopImmediatePropagation();
+        //
+        // const selectedItem = this._getSelectedItem(event.data);
+        // if (!selectedItem) {
+        //     console.error(`No item selected to be downloaded!`);
+        //     return;
+        // }
+        //
+        // const itemViewModel = this._getCleanProxyObject(selectedItem);
+        // if (itemViewModel.type === 'file') {
+        //     this._handleDownloadFile(this.model.currentPath, itemViewModel.name);
+        // }
     };
 
     _handleDownloadFile(path, fileName) {
@@ -501,7 +549,8 @@ export default class ExplorerController extends WebcController {
             selectedItemName = event.target.querySelector('.item-name').textContent;
         }
         else {          // if the _handleViewFile function is triggered by the context menu "View file" button
-            selectedItemName = event.target.parentElement.parentElement.querySelector('.item-name').textContent;
+            let selectedItem = event.target.parentElement.parentElement.parentElement;
+            selectedItemName = selectedItem.querySelector('.item-name').textContent;
         }
 
         const { currentPath, selectedItem } = this._getSelectedItemAndWorkingDir(selectedItemName);

@@ -4,10 +4,11 @@
 
 .table-content {
     display: flex;
+    flex-direction: column;
 }
 
-.table-content div {
-    flex: 1;
-    margin: 10px;
-    padding: 20px;
+.table-item, .table-header {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 100px;
 }
