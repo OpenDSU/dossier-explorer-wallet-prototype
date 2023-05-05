@@ -80,6 +80,8 @@ export default class ExplorerController extends WebcController {
         // this.on('export-dossier', this._handleDownload);
         this.onTagClick('download-file', this._handleDownload);
 
+        this.onTagClick('unmount', this.unmountDSU)
+
         this.on('share-dossier', this._shareDossierHandler);
         this.on('delete', this._deleteHandler);
         this.on('move', this._moveHandler);
@@ -253,7 +255,7 @@ export default class ExplorerController extends WebcController {
         event.stopImmediatePropagation();
 
         let cwd = this.model.currentPath || '/';
-        let selectedItem = event.target.parentElement.parentElement.parentElement;
+        let selectedItem = event.target.parentElement.parentElement.parentElement.parentElement;
         let filename = selectedItem.querySelector('.item-name').textContent;
 
         renameViewModel.currentPath = cwd;
@@ -522,6 +524,21 @@ export default class ExplorerController extends WebcController {
         fileDownloader.downloadFile();
     }
 
+    unmountDSU = async (model, target, event) => {
+        this.service = await getNewDossierServiceInstance();
+        let selectedItem = event.target.parentElement.parentElement.parentElement;
+        let selectedItemName = selectedItem.querySelector('.item-name').textContent;
+
+        let cwd = this.model.currentPath || '/'
+        // cwd += selectedItemName;
+        this.service.unmountDSU(cwd, selectedItemName, (err, res) => {
+            if (err) {
+                return err;
+            }
+            this.refreshUI();
+        })
+    }
+
     showContextMenu = (model, target, event) => {
         console.log('clicked on context menu');
         if(!event){
@@ -530,10 +547,6 @@ export default class ExplorerController extends WebcController {
             if(event.target.type === "file"){
                 return;
             }
-        }
-        if (model.type !== "file") {
-            let fileOption = this.element.querySelector(`div[data-type="${model.type}"]`);
-            fileOption.classList.add("hidden");
         }
 
         let contextMenu = this.element.querySelector(`div[name="${model.name}"]`);
@@ -549,7 +562,7 @@ export default class ExplorerController extends WebcController {
             selectedItemName = event.target.querySelector('.item-name').textContent;
         }
         else {          // if the _handleViewFile function is triggered by the context menu "View file" button
-            let selectedItem = event.target.parentElement.parentElement.parentElement;
+            let selectedItem = event.target.parentElement.parentElement.parentElement.parentElement;
             selectedItemName = selectedItem.querySelector('.item-name').textContent;
         }
 

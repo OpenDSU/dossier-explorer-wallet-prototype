@@ -200,7 +200,7 @@ class NewDossierExplorerService {
         callback("Raw Dossier is not available.");
     }
 
-    deleteDossier(path, name, callback) {
+    unmountDSU(path, name, callback) {
         if (this.rawDossier) {
             return getParentDossier(this.rawDossier, path, (err, parentKeySSI, relativePath) => {
                 if (err) {
