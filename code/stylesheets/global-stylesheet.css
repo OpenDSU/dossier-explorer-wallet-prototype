@@ -10,5 +10,12 @@
 .table-item, .table-header {
     display: flex;
     flex-wrap: nowrap;
-    gap: 100px;
+    border: 1px solid #1C6EA4;
+    border-radius: 14px;
+    width: 100%;
+}
+
+.table-item>* {
+    width: 200px;
+    height: 3em;
 }
