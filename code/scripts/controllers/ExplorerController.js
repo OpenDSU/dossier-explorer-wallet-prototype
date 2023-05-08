@@ -41,6 +41,14 @@ export default class ExplorerController extends WebcController {
     }
 
     _initListeners = () => {
+        this.model.onChange('currentPath', this.breadcrumbGenerator);
+        this.breadcrumbGenerator();
+
+        this.onTagClick('go-to', (model, target, event) => {
+            this.model.currentPath = model.path;
+            this.refreshUI();
+        });
+
         this.on('openFeedback', (evt) => {
             this.feedbackEmitter = evt.detail;
         });
@@ -64,6 +72,10 @@ export default class ExplorerController extends WebcController {
             myDiv.addEventListener("dblclick", (event) => {
                 if (event.target.classList.contains("table-item")) {
                     console.log("The table item was double-clicked!");
+                    let dataType = event.target.getAttribute('data-type');
+                    if (dataType !== 'file') {
+                        return this.goTo(event.target.getAttribute('data-name'));
+                    }
                     this._handleViewFile(event);
                     // if the double clicked element is a file, this should open the view-file-modal
                     // if the double clicked element is a directory/DSU, this should navigate there
@@ -105,6 +117,36 @@ export default class ExplorerController extends WebcController {
 
     refreshUI = () => {
         this.explorerNavigator.listDossierContent();
+    }
+
+    breadcrumbGenerator = () => {
+        if (this.model.currentPath === '/') {
+            return this.model.breadcrumbs = [''];
+        }
+        let segments = this.model.currentPath.split('/');
+        let breadcrumb = [];
+        let cwd = "";
+        for (let i in segments) {
+            let segment = segments[i];
+            if(segment==="" && i !== "0"){
+                continue;
+            }
+            cwd += segment + '/';
+            breadcrumb.push({
+                label: segment,
+                path: cwd
+            });
+        }
+        this.model.breadcrumbs = breadcrumb;
+    }
+
+    goTo = (path) => {
+        let cwd = this.model.currentPath;
+        if (cwd[cwd.length - 1] !== '/') {
+            this.model.currentPath += "/";
+        }
+        this.model.currentPath += path;
+        this.refreshUI();
     }
 
     _handleOptionsMenu = (event) => {

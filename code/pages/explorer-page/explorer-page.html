@@ -2,8 +2,6 @@
     <div>
 <!--        <psk-condition condition="@conditionalExpressions.isLoading">-->
 <!--            <psk-grid slot="condition-false">-->
-                <psk-breadcrumb-navigator mode="scroll" segments="@navigationLinks">
-                </psk-breadcrumb-navigator>
 
                 <div class="add-menu">
                     <button data-tag="add-menu">
@@ -48,13 +46,17 @@
 
         <div id="explorer-content">
             <div id="file-system">
+                <div class="navigation-bar" data-for="@breadcrumbs">
+                    <span data-tag="go-to">{{ @label }}/</span>
+                </div>
+
                 <div class="table-header">
                     <div>Name</div>
                     <div>Type</div>
                 </div>
 
                 <div class="table-content" data-for="@content">
-                    <div class="table-item">
+                    <div class="table-item" data-type="@type" data-name="@name">
                         <!--            the `style="pointer-events:none"` property is used so that the event listener captures clicks
                                         on the whole row of the table, not only clicks on the name or type of a certain element-->
                         <div style="pointer-events:none" class="item-name">{{ @name }}</div>
