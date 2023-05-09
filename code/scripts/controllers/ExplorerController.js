@@ -306,7 +306,6 @@ export default class ExplorerController extends WebcController {
         let modalOptions = {
             controller : "file-folder-controllers/RenameController",
             model: this.model.modalState,
-            disableFooter: true,
             modalTitle: "Rename"
         };
 

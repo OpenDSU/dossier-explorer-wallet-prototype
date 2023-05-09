@@ -2,6 +2,13 @@
     display: none;
 }
 
+.navigation-bar {
+    padding: 1em;
+    margin: 30px;
+    border: 1px solid #1C6EA4;
+    border-radius: 14px;
+}
+
 .table-content {
     display: flex;
     flex-direction: column;
@@ -15,7 +22,20 @@
     width: 100%;
 }
 
-.table-item>* {
+.table-item>*, .table-header>* {
     width: 200px;
     height: 3em;
+}
+
+.content>* {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 20em;
+}
+
+button {
+    border: 1px solid #1C6EA4;
+    border-radius: 14px;
+    padding: 4px;
 }
