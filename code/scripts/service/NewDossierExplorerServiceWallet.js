@@ -47,6 +47,10 @@ class NewDossierExplorerService {
     }
 
     async listDirContentAsync(path) {
+        console.log("LIST DIR CONTENT: ", path);
+        if(path[path.length-1]==="/"){
+            path = path.substring(0,path.length-1);
+        }
         if (this.rawDossier) {
             let content = await $$.promisify(rawDossier.readDir, rawDossier)(path, CONSTANTS.WITH_FILE_TYPES);
             let stateObj = {
@@ -58,7 +62,8 @@ class NewDossierExplorerService {
             for (let element in content.files) {
                 stateObj.content.push({
                     name: content.files[element],
-                    type: "file"
+                    type: "file",
+                    isFile: true
                 });
             }
             for (let element in content.folders) {
@@ -70,9 +75,11 @@ class NewDossierExplorerService {
             for (let element in content.mounts) {
                 stateObj.content.push({
                     name: content.mounts[element],
-                    type: "DSU"
+                    type: "DSU",
+                    isDSU: true
                 });
             }
+            console.log("PATH AND STATEOBJ: ", path, '\n', JSON.stringify(stateObj));
             return stateObj;
         }
         throw Error("Raw Dossier is not available.");

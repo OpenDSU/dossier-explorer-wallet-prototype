@@ -30,7 +30,9 @@ export default class ExplorerNavigationController extends WebcController {
         let wDir = this.model.currentPath || '/';
         // Reset the last selected item(if any), as for the moment we support only single selection
         this._resetLastSelected();
-        this.dossierService.readDirDetailed(wDir, this._updateDossierContent);
+        this.dossierService.listDirContentAsync(wDir).then((result) => {
+            this._updateDossierContent(undefined, result.content);
+        });
     }
 
     changeDirectoryHandler = (event) => {
@@ -278,7 +280,7 @@ export default class ExplorerNavigationController extends WebcController {
                 return console.error(err);
             }
 
-            this.model.contentTypesToDisplay.forEach((type) => {
+           /* this.model.contentTypesToDisplay.forEach((type) => {
                 if (newDirContent[type] && newDirContent[type].length) {
                     const updatedContent = this._updateContentForType(
                         newDirContent[type],
@@ -287,8 +289,8 @@ export default class ExplorerNavigationController extends WebcController {
 
                     newContent = [...newContent, ...updatedContent];
                 }
-            });
-
+            });*/
+            newContent = newDirContent;
             this.model.setChainValue('content', newContent);
             this.feedbackController.setLoadingState(false);
         });
