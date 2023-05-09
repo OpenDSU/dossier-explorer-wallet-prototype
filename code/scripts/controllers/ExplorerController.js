@@ -141,7 +141,7 @@ export default class ExplorerController extends WebcController {
     }
 
     goTo = (path) => {
-        let cwd = this.model.currentPath;
+        let cwd = this.model.currentPath || '/';
         if (cwd[cwd.length - 1] !== '/') {
             this.model.currentPath += "/";
         }
