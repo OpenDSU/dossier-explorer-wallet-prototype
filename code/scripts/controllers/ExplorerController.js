@@ -410,7 +410,6 @@ export default class ExplorerController extends WebcController {
         let modalOptions = {
             controller : "file-folder-controllers/NewFileController",
             model: this.model.modalState,
-            disableFooter: true,
             modalTitle: "Create new file"
         };
 
@@ -429,7 +428,6 @@ export default class ExplorerController extends WebcController {
         let modalOptions = {
             controller : "file-folder-controllers/NewFolderController",
             model: this.model.modalState,
-            disableFooter: true,
             modalTitle: "Create new folder"
         };
 
