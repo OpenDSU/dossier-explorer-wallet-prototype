@@ -153,21 +153,8 @@ export default class ExplorerController extends WebcController {
         event.preventDefault();
         event.stopImmediatePropagation();
         const selectedItem = event.data;
-        // let triggeredButton = event.path[0];
-        // let elementRect = triggeredButton.getBoundingClientRect();
+
         let itemActionsBtn = this.element.querySelector("#wallet-content-container").shadowRoot.querySelector("#item-actions");
-
-        // let containerHeight = selectedItem.optionsContainerHeight;
-        // let topCorrection = containerHeight / 2 - 15;
-        // if (window.innerHeight < elementRect.top + containerHeight / 2) {
-        //     topCorrection = topCorrection + (elementRect.top + containerHeight / 2 - window.innerHeight);
-        // }
-        // itemActionsBtn.querySelector("psk-grid").style.top = elementRect.top - topCorrection + "px";
-        // itemActionsBtn.querySelector("psk-grid").style.left = elementRect.left - 220 + "px";
-
-        // if (!selectedItem) {
-        //     return console.error(`No item selected!`);
-        // }
 
         itemActionsBtn.setAttribute("opened", "");
         this.model.optionsMenu.isApplication = selectedItem.isApplication;

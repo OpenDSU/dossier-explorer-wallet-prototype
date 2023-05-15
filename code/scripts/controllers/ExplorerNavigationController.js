@@ -179,12 +179,6 @@ export default class ExplorerNavigationController extends WebcController {
             this._initNavigationLinks();
         });
 
-        this.breadcrumbElement = this.element.querySelector("psk-breadcrumb-navigator");
-        this.model.onChange("navigationLinks", () => {
-            if (this.breadcrumbElement) {
-                this.breadcrumbElement.segments = this.model.toObject("navigationLinks");
-            }
-        });
     };
 
     _updateNavigationLinks = (links) => {

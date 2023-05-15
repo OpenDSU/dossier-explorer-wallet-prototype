@@ -1,48 +1,46 @@
 <webc-container controller="ExplorerController">
     <div>
-<!--        <psk-condition condition="@conditionalExpressions.isLoading">-->
-<!--            <psk-grid slot="condition-false">-->
+        <div class="add-menu">
+            <button data-tag="add-menu">
+                <span class="fa fa-plus"></span>
+                Add
+            </button>
+            <div id="add-menu-options" class="hidden">
+                <button data-tag="create-file" id="create-file-button">
+                    <span class="fa fa-file"></span>
+                    New file
+                </button>
 
-                <div class="add-menu">
-                    <button data-tag="add-menu">
-                        <span class="fa fa-plus"></span>
-                        Add
-                    </button>
-                    <div id="add-menu-options" class="hidden">
-                        <button data-tag="create-file" id="create-file-button">
-                            <span class="fa fa-file"></span>
-                            New file
-                        </button>
+                <button data-tag="create-folder" id="create-folder-button">
+                    <span class="fa fa-folder"></span>
+                    New folder
+                </button>
 
-                        <button data-tag="create-folder" id="create-folder-button">
-                            <span class="fa fa-folder"></span>
-                            New folder
-                        </button>
+                <button data-tag="upload-file">
+                    <span class="fa fa-file"></span>
+                    Upload file
+                </button>
+                <input type="file" id="upload-file" multiple style="display:none"/>
 
-                        <button data-tag="upload-file">
-                            <span class="fa fa-file"></span>
-                            Upload file
-                        </button>
-                        <input type="file" id="upload-file" multiple style="display:none" />
+                <button data-tag="upload-folder">
+                    <span class="fa fa-folder"></span>
+                    Upload folder
+                </button>
+                <input multiple directory mozdirectory webkitdirectory type="file" id="upload-folder"
+                       style="display:none"/>
 
-                        <button data-tag="upload-folder">
-                            <span class="fa fa-folder"></span>
-                            Upload folder
-                        </button>
-                        <input multiple directory mozdirectory webkitdirectory type="file" id="upload-folder" style="display:none" />
+                <button data-tag="create-dossier">
+                    <span class="fa fa-lock"></span>
+                    Create Dossier
+                </button>
 
-                        <button data-tag="create-dossier">
-                            <span class="fa fa-lock"></span>
-                            Create Dossier
-                        </button>
+                <button data-tag="receive-dossier">
+                    <span class="fa fa-upload"></span>
+                    Receive Dossier
+                </button>
+            </div>
 
-                        <button data-tag="receive-dossier">
-                            <span class="fa fa-upload"></span>
-                            Receive Dossier
-                        </button>
-                    </div>
-
-                </div>
+        </div>
 
         <div id="explorer-content">
             <div id="file-system">
@@ -96,14 +94,8 @@
             </div>
 
 
-
         </div>
 
-<!--                <psk-page-loader id="wallet-content-container" slot="condition-false"-->
-<!--                                 page-url="@pageLoader.explorerContent"></psk-page-loader>-->
-<!--            </psk-grid>-->
-<!--        </psk-condition>-->
-        <psk-list-feedbacks messages-to-display="5" time-alive="3000"></psk-list-feedbacks>
     </div>
 </webc-container>
 
