@@ -4,4 +4,3 @@ addfile ../opendsu-sdk/psknode/bundles/pskruntime.js scripts/bundles/pskruntime.
 addfile ../opendsu-sdk/psknode/bundles/webshims.js scripts/bundles/webshims.js
 addfile ../opendsu-sdk/psknode/bundles/iframeBoot.js scripts/bundles/iframeBoot.js
 mount ../webcardinal/seed /webcardinal
-mount ../themes/*/seed /themes/*
