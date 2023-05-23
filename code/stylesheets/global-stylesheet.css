@@ -1,12 +1,41 @@
+@import "../assets/css/fonts/fontawesome/css/all.min.css";
+
 .hidden {
     display: none;
 }
 
 .navigation-bar {
-    padding: 1em;
-    margin: 30px;
-    border: 1px solid #1C6EA4;
-    border-radius: 14px;
+    padding: 20px;
+    font-size: 20px;
+    line-height: 26px;
+    background: var(--backround-color);
+    color: var(--main-color);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+}
+
+#add-menu-options {
+    padding: 28px;
+}
+
+#add-menu-options button {
+    border-radius: 11px;
+    background: var(--main-color);
+    color: #FFFFFF;
+    padding: 8px 16px;
+}
+
+.explorer-container {
+    padding: 0px 28px;
+}
+
+.table-header {
+    background: var(--header-color);
+    border: 1px solid #F4F4F4;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 3px 3px 0px 0px;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
 }
 
 .table-content {
@@ -14,24 +43,29 @@
     flex-direction: column;
 }
 
-.table-item, .table-header {
+.table-item {
     display: flex;
     flex-wrap: nowrap;
-    border: 1px solid #1C6EA4;
-    border-radius: 14px;
     width: 100%;
+    border-bottom: 0.25px solid #6B6B6B;
+
 }
 
-.table-item>*, .table-header>* {
+.table-item > *, .table-header > * {
     width: 200px;
     height: 3em;
 }
 
-.content>* {
+.content > * {
     width: 100%;
     min-width: 100%;
     max-width: 100%;
     min-height: 20em;
+}
+
+.more-action-container {
+    display: flex;
+    justify-content: space-between;
 }
 
 button {

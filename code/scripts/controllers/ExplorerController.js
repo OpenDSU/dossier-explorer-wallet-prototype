@@ -111,7 +111,6 @@ export default class ExplorerController extends WebcController {
         this.onTagClick('create-dossier', this._createDossierHandler);
         this.onTagClick('receive-dossier', this._receiveDossierHandler);
 
-        this.onTagClick('add-menu', this.toggleAddMenu);
         this.element.querySelector('#add-menu-options').addEventListener('click', this.toggleAddMenu);
     };
 
@@ -640,7 +639,5 @@ export default class ExplorerController extends WebcController {
                 return;
             }
         }
-        let options = this.element.querySelector('#add-menu-options');
-        options.classList.toggle("hidden");
     }
 }
