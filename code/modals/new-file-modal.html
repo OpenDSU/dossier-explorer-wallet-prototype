@@ -1,13 +1,20 @@
-<div id="filename">
-    <label for="filename-input">File name</label>
-    <input type="text" name="filename-input" id="filename-input" placeholder="Enter file name..." value="@filename">
-</div>
-<div id="file-content">
-    <label for="file-content-textarea">Initial content for file (optional). This can be added or edited later</label>
-    <textarea id="file-content-textarea"></textarea>
-</div>
+<main>
+    <div class="modal-content-container">
+        <label for="filename-input">File name</label>
+        <input type="text" name="filename-input" id="filename-input" placeholder="Enter file name..."
+               value="@filename">
+        <label for="file-content-textarea">Initial content for file (optional). This can be added or edited
+            later</label>
+        <textarea id="file-content-textarea"></textarea>
 
+    </div>
+</main>
 <div id="buttons" slot="footer">
-    <button data-tag="cancel">Cancel</button>
-    <button data-tag="create">Create file</button>
+    <button class="secondary-choice-button" data-tag="cancel">Cancel</button>
+    <button class="modal-footer-button" data-tag="create">Create file</button>
 </div>
+<style>
+    textarea {
+        height: 77px;
+    }
+</style>

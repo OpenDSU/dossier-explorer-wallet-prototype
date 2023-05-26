@@ -12,7 +12,7 @@ export default class ExplorerNavigationController extends WebcController {
 
         this.model = model;
         this._init();
-        
+
     }
 
     async _init(){
@@ -156,6 +156,7 @@ export default class ExplorerNavigationController extends WebcController {
         };
 
         let modalModel = {
+            modalTitle: viewModel.name,
             controller : "file-folder-controllers/FileController",
             model: viewModel,
             disableClosing: true

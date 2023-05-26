@@ -1,99 +1,94 @@
-<webc-container controller="ExplorerController" class="explorer-container">
-    <div>
-        <div class="navigation-bar" data-for="@breadcrumbs">
-            <span data-tag="go-to">{{ @label }} > </span>
-        </div>
-        <div class="add-menu">
-            <div id="add-menu-options">
-                <button data-tag="create-file" id="create-file-button">
-                    <span class="fa fa-file"></span>
-                    New file
-                </button>
-
-                <button data-tag="create-folder" id="create-folder-button">
-                    <span class="fa fa-folder"></span>
-                    New folder
-                </button>
-
-                <button data-tag="upload-file">
-                    <span class="fa fa-file"></span>
-                    Upload file
-                </button>
-                <input type="file" id="upload-file" multiple style="display:none"/>
-
-                <button data-tag="upload-folder">
-                    <span class="fa fa-folder"></span>
-                    Upload folder
-                </button>
-                <input multiple directory mozdirectory webkitdirectory type="file" id="upload-folder"
-                       style="display:none"/>
-
-                <button data-tag="create-dossier">
-                    <span class="fa fa-lock"></span>
-                    Create Dossier
-                </button>
-
-                <button data-tag="receive-dossier">
-                    <span class="fa fa-upload"></span>
-                    Receive Dossier
-                </button>
+<div class="explorer-container">
+    <webc-container controller="ExplorerController">
+        <div>
+            <div class="navigation-bar" data-for="@breadcrumbs">
+                <span data-tag="go-to">{{ @label }} > </span>
             </div>
+            <div class="add-menu">
+                <div id="add-menu-options">
+                    <button data-tag="create-file" id="create-file-button">
+                        <span class="fa fa-file"></span>
+                        New file
+                    </button>
 
-        </div>
+                    <button data-tag="create-folder" id="create-folder-button">
+                        <span class="fa fa-folder"></span>
+                        New folder
+                    </button>
 
-        <div id="explorer-content">
-            <div id="file-system">
-                <div class="table-header">
-                    <div>Name</div>
-                    <div>Type</div>
+                    <button data-tag="upload-file">
+                        <span class="fa fa-file"></span>
+                        Upload file
+                    </button>
+                    <input type="file" id="upload-file" multiple style="display:none"/>
+
+                    <button data-tag="upload-folder">
+                        <span class="fa fa-folder"></span>
+                        Upload folder
+                    </button>
+                    <input multiple directory mozdirectory webkitdirectory type="file" id="upload-folder"
+                           style="display:none"/>
+
+                    <button data-tag="create-dossier">
+                        <span class="fa fa-lock"></span>
+                        Create Dossier
+                    </button>
+
+                    <button data-tag="receive-dossier">
+                        <span class="fa fa-upload"></span>
+                        Receive Dossier
+                    </button>
                 </div>
 
-                <div class="table-content" data-for="@content">
-                    <div class="table-item" data-type="@type" data-name="@name">
-                        <!--            the `style="pointer-events:none"` property is used so that the event listener captures clicks
-                                        on the whole row of the table, not only clicks on the name or type of a certain element-->
-                        <div style="pointer-events:none" class="item-name">{{ @name }}</div>
-                        <div class="more-action-container">
-                            <div style="pointer-events:none">{{ @type }}</div>
-                            <button data-tag="context-menu"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                        </div>
+            </div>
+
+            <div id="explorer-content">
+                <div id="file-system">
+                    <div class="table-header">
+                        <div class="header-item">Name</div>
+                        <div class="header-item">Type</div>
+                    </div>
+
+                    <div class="table-content" data-for="@content">
+                        <div class="table-row" data-type="@type" data-name="@name">
+                            <!--            the `style="pointer-events:none"` property is used so that the event listener captures clicks
+                                            on the whole row of the table, not only clicks on the name or type of a certain element-->
+                            <div style="pointer-events:none" class="item-name">{{ @name }}</div>
+                            <div class="more-action-container">
+                                <div style="pointer-events:none">{{ @type }}</div>
+                                <div class="more-actions" data-tag="context-menu"><i
+                                        class="fa-solid fa-ellipsis-vertical"></i>
+                                    <div class="hidden context-menu" name="@name">
+
+                                        <div data-if="@isFile" data-tag="view-file" class="context-menu-item">
+                                            <div>View File</div>
+                                        </div>
+
+                                        <div data-if="@isFile" data-tag="rename" class="context-menu-item">
+                                            <div>Rename</div>
+                                        </div>
+
+                                        <div data-tag="unmount" data-if="@isDSU" class="context-menu-item">
+                                            <div>Unmount</div>
+                                        </div>
 
 
-                        <div class="hidden context-menu" name="@name">
-                            <div class="files-only" data-if="@isFile">
-                                <div slot="true">
-                                    <button data-tag="view-file">
-                                        <span class="fa fa-eye"></span>
-                                        View File
-                                    </button>
-
-                                    <button data-tag="rename">
-                                        <span class="fa fa-pencil"></span>
-                                        Rename
-                                    </button>
+                                        <div data-tag="download-file" class="context-menu-item">
+                                            <div> Download</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="dsu-only" data-if="@isDSU">
-                                <button data-tag="unmount">
-                                    <span class="fa-solid fa-eject"></span>
-                                    Unmount
-                                </button>
-                            </div>
-
-                            <button data-tag="download-file">
-                                <span class="fa fa-download"></span>
-                                Download
-                            </button>
                         </div>
-
                     </div>
                 </div>
+
+
             </div>
 
-
         </div>
+    </webc-container>
 
-    </div>
-</webc-container>
+</div>
 

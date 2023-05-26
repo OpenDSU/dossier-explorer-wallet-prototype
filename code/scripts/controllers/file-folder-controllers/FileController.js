@@ -14,7 +14,7 @@ export default class FileController extends WebcController {
         this.model = {
             isEditable: this.checkIfEditable(),
             editMode: false,
-            closingConfirmation: false
+            closingConfirmation: false,
         }
 
         this.displayFileContent();

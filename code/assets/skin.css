@@ -3,16 +3,33 @@
     --header-color: #DBF5FB;
     --backround-color: #F5F5F5;
     --webc-basic-background: #F5F5F5;
+    --grey-button-color: #F8FCFF
 }
 
-webc-app-menu[mode=vertical] {
+webc-app-menu[mode=vertical] .content,
+webc-app-menu[mode=vertical] .after,
+webc-app-menu[mode=mobile] .content,
+webc-app-menu[mode=mobile] .after,
+webc-app-identity {
     display: none;
+}
+
+webc-app-menu[mode=vertical],
+webc-app-menu[mode=mobile] {
+    min-width: 0px;
+    min-height: 0px;
+    width: 0px;
+    height: 0px;
+    padding: 0px;
 }
 
 webc-app-error-toast {
     z-index: 100;
 }
 
+webc-modal {
+    --max-width: 60%;
+}
 
 webc-modal::part(position) {
     overflow: auto;
@@ -24,6 +41,40 @@ webc-modal::part(main) {
 
 webc-modal .header-color {
     color: #565656 !important;
+}
+
+webc-modal::part(header) {
+    background: #DBF5FB;
+    border: 1px solid #F4F4F4;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.05);
+    height: 38px;
+    padding: 0px 0px 0px 20px;
+}
+
+
+webc-modal::part(expand),
+webc-modal::part(close) {
+    position: absolute;
+    height: 13px;
+    width: 13px;
+    top: 12px;
+
+}
+
+webc-modal::part(expand) {
+    background: url("./images/expand-button.svg") center no-repeat;
+    right: 48px;
+}
+
+webc-modal::part(close) {
+    background: url("./images/close-button.svg") center no-repeat;
+    right: 12px;
+}
+
+webc-modal::part(expand):after,
+webc-modal::part(close):after {
+    content: "";
+    display: none;
 }
 
 .webc-datatable--header {
@@ -41,8 +92,8 @@ webc-modal .header-color {
     background: #9ACFBD;
 }
 
-webc-container.explorer-container {
-    position: absolute;
+.explorer-container {
+    position: relative;
     width: 100%;
     height: 100%;
     background: var(--backround-color);

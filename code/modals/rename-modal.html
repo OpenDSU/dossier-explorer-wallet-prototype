@@ -1,9 +1,15 @@
-<div id="filename">
-    <label for="filename-input">File name</label>
-    <input type="text" name="filename-input" id="filename-input" placeholder="Enter file name..." value="@filename">
-</div>
+<main>
+    <div class="modal-content-container">
+        <label for="filename-input">File name</label>
+        <input class="custom-input" type="text" name="filename-input" id="filename-input"
+               placeholder="Enter file name..."
+               value="@filename">
+    </div>
+
+</main>
+
 
 <div id="buttons" slot="footer">
-    <button data-tag="cancel">Cancel</button>
-    <button data-tag="save">Save</button>
+    <button class="secondary-choice-button" data-tag="cancel">Cancel</button>
+    <button class="modal-footer-button" data-tag="save">Save</button>
 </div>

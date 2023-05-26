@@ -1,9 +1,5 @@
 @import "../assets/css/fonts/fontawesome/css/all.min.css";
 
-.hidden {
-    display: none;
-}
-
 .navigation-bar {
     padding: 20px;
     font-size: 20px;
@@ -15,16 +11,28 @@
 
 #add-menu-options {
     padding: 28px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-#add-menu-options button {
+#add-menu-options button,
+.modal-footer-button {
     border-radius: 11px;
     background: var(--main-color);
     color: #FFFFFF;
     padding: 8px 16px;
 }
 
-.explorer-container {
+.secondary-choice-button {
+    border-radius: 11px;
+    background: var(--grey-button-color);
+    color: var(--main-color);
+    padding: 8px 16px;
+}
+
+#file-system {
     padding: 0px 28px;
 }
 
@@ -33,9 +41,7 @@
     border: 1px solid #F4F4F4;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.05);
     border-radius: 3px 3px 0px 0px;
-    display: flex;
-    flex-wrap: nowrap;
-    width: 100%;
+
 }
 
 .table-content {
@@ -43,17 +49,24 @@
     flex-direction: column;
 }
 
-.table-item {
-    display: flex;
-    flex-wrap: nowrap;
-    width: 100%;
+.table-row {
     border-bottom: 0.25px solid #6B6B6B;
-
 }
 
-.table-item > *, .table-header > * {
-    width: 200px;
+.table-header,
+.table-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.table-row > *, .table-header > * {
+    min-width: 200px;
     height: 3em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px 25px;
 }
 
 .content > * {
@@ -66,10 +79,64 @@
 .more-action-container {
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
+}
+
+.more-actions {
+    width: 20px;
+    text-align: center;
+    position: relative;
 }
 
 button {
     border: 1px solid #1C6EA4;
     border-radius: 14px;
     padding: 4px;
+}
+
+.context-menu {
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    border: 0.25px solid #BBBBBB;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 7px;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    width: max-content;
+    padding: 17px 17px 5px;
+}
+
+.context-menu-item div {
+    padding-bottom: 12px;
+    text-align: left;
+}
+
+main .modal-content-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+main label {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: capitalize;
+    color: #2E3233;
+}
+
+main input {
+    background: #FFFFFF;
+    border: 1px solid rgba(139, 223, 242, 0.46);
+    border-radius: 2px;
+    height: 28px;
+    box-sizing: border-box;
+    padding: 0px 7px;
+}
+
+.hidden {
+    display: none;
 }

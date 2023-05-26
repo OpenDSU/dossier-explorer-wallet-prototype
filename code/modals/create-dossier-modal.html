@@ -1,16 +1,16 @@
-<div>
+<main>
     <div data-if="@dossierNameComplete">
-        <div slot="false" id="dossier-name">
+        <div slot="false" class="modal-content-container" id="dossier-name">
             <label for="dossier-name-input">Name your new dossier</label>
             <input type="text" id="dossier-name-input" value="@dossierName">
             <div id="buttons">
-                <button data-tag="create-dossier">Create Dossier</button>
+                <button class="modal-footer-button" data-tag="create-dossier">Create Dossier</button>
             </div>
         </div>
-        <div slot="true">
+        <div slot="true" class="modal-content-container">
             <label for="key-ssi">Dossier with the KeySSI below has been successfully created!</label>
             <input type="text" id="key-ssi" value="@keySSI" readonly>
-            <button data-tag="finish">Finish</button>
+            <button class="modal-footer-button" data-tag="finish">Finish</button>
         </div>
     </div>
-</div>
+</main>

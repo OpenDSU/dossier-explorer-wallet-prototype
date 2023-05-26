@@ -1,5 +1,5 @@
-<div slot="header">
-    <button data-tag="close">close</button>
+<div slot="header" class="header-container">
+    <button class="close-button" data-tag="close" title="Close"></button>
 </div>
 
 <div id="content" class="content"></div>
@@ -13,26 +13,40 @@
                             <div slot="true" class="unsaved-file">
 
                                 <div class="modal-buttons">
-                                    <button data-tag="save-exit">save and exit</button>
-                                    <button data-tag="dismiss-exit">dismiss and exit</button>
-                                    <button data-tag="cancel">cancel</button>
+                                    <button class="modal-footer-button" data-tag="save-exit">Save and exit</button>
+                                    <button class="modal-footer-button" data-tag="dismiss-exit">Dismiss and exit
+                                    </button>
+                                    <button class="secondary-choice-button" data-tag="cancel">Cancel</button>
                                 </div>
                             </div>
                             <div slot="false">
-                                <button data-tag="save">save</button>
-                                <button data-tag="cancel">cancel</button>
+                                <button class="modal-footer-button" data-tag="save">Save</button>
+                                <button class="secondary-choice-button" data-tag="cancel">Cancel</button>
                             </div>
                         </div>
                     </div>
                     <div slot="false" class="modal-buttons">
-                        <button data-tag="edit">edit</button>
-                        <button data-tag="download">download</button>
+                        <button class="modal-footer-button" data-tag="edit">Edit</button>
+                        <button class="modal-footer-button" data-tag="download">Download</button>
                     </div>
                 </div>
             </div>
             <div slot="false">
-                <button data-tag="download">download</button>
+                <button class="modal-footer-button" data-tag="download">Download</button>
             </div>
         </div>
     </div>
 </div>
+<style>
+
+    .close-button {
+        position: absolute;
+        border: none;
+        width: 13px;
+        height: 13px;
+        background: url("./assets/images/close-button.svg") center no-repeat;
+        background-size: contain;
+        right: 12px;
+        top: 12px;
+    }
+</style>
