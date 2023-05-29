@@ -119,7 +119,9 @@ class NewDossierExplorerService {
         });
     }
 
-    createDossier(path, dossierName, callback) {
+    async createDossier(path, dossierName, callback) {
+        await this.rawDossier.safeBeginBatchAsync();
+
         if (this.rawDossier) {
             this.rawDossier.getKeySSIAsString((err, ssi) => {
                 if (err) {
@@ -142,6 +144,7 @@ class NewDossierExplorerService {
                         this.mountDossier(path, keySSI, dossierName, callback);
                     });
                 });
+                this.rawDossier.commitBatch(callback);
             });
         } else {
             callback("Raw Dossier is not available.");
@@ -166,8 +169,14 @@ class NewDossierExplorerService {
         callback("Raw Dossier is not available.");
     }
 
-    createFolder(path, callback) {
-        this.rawDossier.createFolder(path, callback);
+    async createFolder(path, callback) {
+        await this.rawDossier.safeBeginBatchAsync();
+        this.rawDossier.createFolder(path, (err) => {
+            if (err) {
+                return callback(err);
+            }
+            this.rawDossier.commitBatch(callback);
+        });
     }
 
     rename(oldPath, newPath, callback) {
@@ -207,7 +216,8 @@ class NewDossierExplorerService {
         callback("Raw Dossier is not available.");
     }
 
-    unmountDSU(path, name, callback) {
+    async unmountDSU(path, name, callback) {
+        await this.rawDossier.safeBeginBatchAsync();
         if (this.rawDossier) {
             return getParentDossier(this.rawDossier, path, (err, parentKeySSI, relativePath) => {
                 if (err) {
@@ -227,7 +237,7 @@ class NewDossierExplorerService {
                             console.log(err);
                             return callback(err);
                         }
-
+                        this.rawDossier.commitBatch(callback);
                         callback(undefined, {
                             success: true,
                             path: path,
@@ -261,7 +271,8 @@ class NewDossierExplorerService {
         callback("Raw Dossier is not available.");
     }
 
-    mountDossier(path, keySSI, dossierName, callback) {
+    async mountDossier(path, keySSI, dossierName, callback) {
+        await this.rawDossier.safeBeginBatchAsync();
         getParentDossier(this.rawDossier, path, (err, parentKeySSI, relativePath) => {
             if (err) {
                 return callback(err);
@@ -278,6 +289,7 @@ class NewDossierExplorerService {
                         return callback(err)
                     }
                     callback(undefined, keySSI);
+                    this.rawDossier.commitBatch(callback);
                 });
             }
 
@@ -304,8 +316,14 @@ class NewDossierExplorerService {
         this.rawDossier.readFile(path, callback);
     }
 
-    writeFile(path, data, callback) {
-        this.rawDossier.writeFile(path, data, callback);
+    async writeFile(path, data, callback) {
+        await this.rawDossier.safeBeginBatchAsync();
+        this.rawDossier.writeFile(path, data, (err) => {
+            if (err) {
+                return callback(err);
+            }
+            this.rawDossier.commitBatch(callback);
+        });
     }
 
     beginBatch() {
