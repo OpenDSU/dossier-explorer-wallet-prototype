@@ -20,14 +20,14 @@
                         <span class="fa fa-file"></span>
                         Upload file
                     </button>
-                    <input type="file" id="upload-file" multiple style="display:none"/>
+                    <input type="file" id="upload-file" multiple class="hidden"/>
 
                     <button data-tag="upload-folder">
                         <span class="fa fa-folder"></span>
                         Upload folder
                     </button>
                     <input multiple directory mozdirectory webkitdirectory type="file" id="upload-folder"
-                           style="display:none"/>
+                           class="hidden"/>
 
                     <button data-tag="create-dossier">
                         <span class="fa fa-lock"></span>
@@ -51,11 +51,11 @@
 
                     <div class="table-content" data-for="@content">
                         <div class="table-row" data-type="@type" data-name="@name">
-                            <!--            the `style="pointer-events:none"` property is used so that the event listener captures clicks
+                            <!--            the `pointer-events-none` class is used so that the event listener captures clicks
                                             on the whole row of the table, not only clicks on the name or type of a certain element-->
-                            <div style="pointer-events:none" class="item-name">{{ @name }}</div>
+                            <div class="item-name pointer-events-none">{{ @name }}</div>
                             <div class="more-action-container">
-                                <div style="pointer-events:none">{{ @type }}</div>
+                                <div class="pointer-events-none">{{ @type }}</div>
                                 <div class="more-actions" data-tag="context-menu"><i
                                         class="fa-solid fa-ellipsis-vertical"></i>
                                     <div class="hidden context-menu" name="@name">
