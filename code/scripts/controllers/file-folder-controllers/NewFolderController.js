@@ -1,95 +1,48 @@
-import ModalController from "../../../cardinal/controllers/base-controllers/ModalController.js";
-import FeedbackController from "../FeedbackController.js";
-import Constants from "../Constants.js";
-import { getNewDossierServiceInstance } from "../../service/NewDossierExplorerServiceWallet.js";
+import {getNewDossierServiceInstance} from "../../service/NewDossierExplorerServiceWallet.js"
 
-export default class NewFolderController extends ModalController {
-    constructor(element, history) {
-        super(element, history);
-        
-        this._init()
-    }
+const {WebcController} = WebCardinal.controllers;
+const {loader} = WebCardinal;
 
-    async _init(){
-        this.feedbackController = new FeedbackController(this.model);
-        this.dossierService = await getNewDossierServiceInstance();
+export default class NewFolderController extends WebcController {
 
-        this._initListeners();
-    }
-
-    _initListeners() {
-        this.on('new-folder-create', this._createNewFolder);
-        this.on('new-folder-cancel', () => {
-            this.responseCallback(undefined);
-        });
-
-        this.model.onChange("folderNameInput.value", this._validateInput);
-    }
-
-    _createNewFolder = (event) => {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-
-        let wDir = this.model.currentPath || '/';
-        if (wDir == '/') {
-            wDir = '';
+    constructor(element, history, ...args) {
+        super(element, history, ...args);
+        this.model = {
+            folderName: ''
         }
 
-        const folderName = this.model.folderNameInput.value;
-        this.feedbackController.setLoadingState(true);
-        this.dossierService.readDirDetailed(wDir, (err, { folders }) => {
-            if (err) {
-                this.feedbackController.setLoadingState();
-                this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
-            } else {
-                if (folders.find((el) => el === folderName)) {
-                    this.feedbackController.setLoadingState();
-                    this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.entryExists);
-                } else {
-                    // If the name is not used, create the folder
-                    this._createFolder(wDir, folderName);
-                }
-            }
+        this.setEventListeners();
+    }
+
+    setEventListeners() {
+        this.onTagClick('cancel', () => {
+            this.cancel()
+        });
+        this.onTagClick('create', () => {
+            this.createFolder();
         });
     }
 
-    _createFolder = (path, folderName) => {
-        const folderPath = `${path}/${folderName}`;
-        const tempFilePath = `${folderPath}/temp.txt`;
-        this.DSUStorage.setItem(tempFilePath, 'temporary text', (err) => {
-            this.feedbackController.setLoadingState();
-            if (err) {
-                console.error(err);
-                return this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
-            }
-
-            this.dossierService.deleteFileFolder(tempFilePath, (err) => {
-                if (err) {
-                    console.error(err);
-                    return this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
-                }
-
-                this.responseCallback(undefined, {
-                    path: folderPath,
-                    name: folderName
-                });
-            });
-        });
+    cancel() {
+        this.element.destroy();
     }
-
-    _validateInput = () => {
-        this.feedbackController.updateDisplayedMessage(Constants.ERROR);
-
-        const value = this.model.folderNameInput.value;
-        const isEmptyName = value.trim().length === 0;
-        this.model.setChainValue('buttons.createFolderButton.disabled', isEmptyName);
-
-        if (isEmptyName) {
-            this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.nameNotValid);
-            return false;
+    async createFolder() {
+        loader.hidden = false;
+        this.service = await getNewDossierServiceInstance();
+        let folderPath = this.model.cwd;
+        if (folderPath[folderPath.length-1] !== '/') {
+            folderPath += '/';
         }
-
-        return true;
-    };
+        folderPath += this.model.folderName;
+        this.service.createFolder(folderPath, (err) => {
+            loader.hidden = true;
+            if (err) {
+                // display warning for user in UI
+            }
+            console.log("created new folder"); // display message for user in UI
+            this.model.setChainValue("refresh", true);
+            this.element.destroy();
+        });
+    }
 
 }

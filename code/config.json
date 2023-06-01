@@ -1,7 +1,6 @@
 {
     "theme": "blue-fluorite-theme",
     "appVersion": "0.2",
-    "basePagesUrl": "/pages/",
     "profile": {
         "username": "Dossier Explorer",
         "avatar": "/assets/images/dossier-explorer.png"
@@ -22,6 +21,5 @@
         "viewFileModal": "app/modals/file-folder/view-file-modal.html",
         "newFileModal": "app/modals/file-folder/new-file-modal.html",
         "newFolderModal": "app/modals/file-folder/new-folder-modal.html"
-    },
-    "excludedDisplayedNames": []
+    }
 }

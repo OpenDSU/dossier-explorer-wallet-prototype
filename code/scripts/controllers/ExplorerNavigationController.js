@@ -1,5 +1,3 @@
-import ContainerController from "../../cardinal/controllers/base-controllers/ContainerController.js";
-
 import FeedbackController from "./FeedbackController.js";
 
 import walletContentViewModel from '../view-models/walletContentViewModel.js';
@@ -7,13 +5,14 @@ import viewFileViewModel from "../view-models/modals/file-folder-modals/viewFile
 import Constants from "./Constants.js";
 import { getNewDossierServiceInstance } from "../service/NewDossierExplorerServiceWallet.js";
 
-export default class ExplorerNavigationController extends ContainerController {
+const {WebcController} = WebCardinal.controllers;
+export default class ExplorerNavigationController extends WebcController {
     constructor(element, history, model) {
         super(element, history);
 
         this.model = model;
         this._init();
-        
+
     }
 
     async _init(){
@@ -31,7 +30,9 @@ export default class ExplorerNavigationController extends ContainerController {
         let wDir = this.model.currentPath || '/';
         // Reset the last selected item(if any), as for the moment we support only single selection
         this._resetLastSelected();
-        this.dossierService.readDirDetailed(wDir, this._updateDossierContent);
+        this.dossierService.listDirContentAsync(wDir).then((result) => {
+            this._updateDossierContent(undefined, result.content);
+        });
     }
 
     changeDirectoryHandler = (event) => {
@@ -146,16 +147,21 @@ export default class ExplorerNavigationController extends ContainerController {
             path = '';
         }
 
-        viewModel.title = `${path}/${viewModel.name}`;
+        viewModel.filePath = `${path}/${viewModel.name}`;
         viewModel.path = path;
 
         viewModel = {
             ...viewFileViewModel,
             ...viewModel
         };
-        this.showModal('viewFileModal', viewModel, (err, response) => {
-            console.log(err, response);
-        });
+
+        let modalModel = {
+            modalTitle: viewModel.name,
+            controller : "file-folder-controllers/FileController",
+            model: viewModel,
+            disableClosing: true
+        };
+        this.showModalFromTemplate('view-file-modal', ()=>{}, ()=>{}, modalModel);
     }
 
     /* ############################## INTERNAL METHODS ############################## */
@@ -174,12 +180,6 @@ export default class ExplorerNavigationController extends ContainerController {
             this._initNavigationLinks();
         });
 
-        this.breadcrumbElement = this.element.querySelector("psk-breadcrumb-navigator");
-        this.model.onChange("navigationLinks", () => {
-            if (this.breadcrumbElement) {
-                this.breadcrumbElement.segments = this.model.toObject("navigationLinks");
-            }
-        });
     };
 
     _updateNavigationLinks = (links) => {
@@ -275,7 +275,7 @@ export default class ExplorerNavigationController extends ContainerController {
                 return console.error(err);
             }
 
-            this.model.contentTypesToDisplay.forEach((type) => {
+           /* this.model.contentTypesToDisplay.forEach((type) => {
                 if (newDirContent[type] && newDirContent[type].length) {
                     const updatedContent = this._updateContentForType(
                         newDirContent[type],
@@ -284,8 +284,8 @@ export default class ExplorerNavigationController extends ContainerController {
 
                     newContent = [...newContent, ...updatedContent];
                 }
-            });
-
+            });*/
+            newContent = newDirContent;
             this.model.setChainValue('content', newContent);
             this.feedbackController.setLoadingState(false);
         });

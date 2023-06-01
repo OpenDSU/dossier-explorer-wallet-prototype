@@ -1,0 +1,52 @@
+<div slot="header" class="header-container">
+    <button class="close-button" data-tag="close" title="Close"></button>
+</div>
+
+<div id="content" class="content"></div>
+<div id="buttons-with-data-if" slot="footer">
+    <div class="modal-buttons">
+        <div data-if="@isEditable">
+            <div slot="true">
+                <div data-if="@editMode">
+                    <div slot="true">
+                        <div data-if="@closingConfirmation">
+                            <div slot="true" class="unsaved-file">
+
+                                <div class="modal-buttons">
+                                    <button class="modal-footer-button" data-tag="save-exit">Save and exit</button>
+                                    <button class="modal-footer-button" data-tag="dismiss-exit">Dismiss and exit
+                                    </button>
+                                    <button class="secondary-choice-button" data-tag="cancel">Cancel</button>
+                                </div>
+                            </div>
+                            <div slot="false">
+                                <button class="modal-footer-button" data-tag="save">Save</button>
+                                <button class="secondary-choice-button" data-tag="cancel">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div slot="false" class="modal-buttons">
+                        <button class="modal-footer-button" data-tag="edit">Edit</button>
+                        <button class="modal-footer-button" data-tag="download">Download</button>
+                    </div>
+                </div>
+            </div>
+            <div slot="false">
+                <button class="modal-footer-button" data-tag="download">Download</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+    .close-button {
+        position: absolute;
+        border: none;
+        width: 13px;
+        height: 13px;
+        background: url("./assets/images/close-button.svg") center no-repeat;
+        background-size: contain;
+        right: 12px;
+        top: 12px;
+    }
+</style>

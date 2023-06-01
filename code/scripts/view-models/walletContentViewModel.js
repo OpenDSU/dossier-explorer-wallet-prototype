@@ -3,35 +3,23 @@ const walletContentViewModel = {
         type: 'file',
         icon: 'file',
         dataType: 'file',
-        optionsContainerHeight: 386
+        isFile: true
     },
     folders: {
         type: 'folder',
         icon: 'folder',
-        dataType: 'folder',
-        optionsContainerHeight: 258
+        dataType: 'folder'
     },
     mounts: {
         type: 'dossier',
         icon: 'lock',
         dataType: 'mount',
-        optionsContainerHeight: 322
-    },
-    applications: {
-        type: 'application',
-        icon: 'cog',
-        dataType: 'mount',
-        isApplication: 'true',
-        optionsContainerHeight: 322
+        isDSU: true
     },
     defaultSortedViewModel: {
         name: {
             isSorted: false,
             descending: false,
-        },
-        lastModified: {
-            isSorted: false,
-            descending: false
         },
         type: {
             isSorted: false,

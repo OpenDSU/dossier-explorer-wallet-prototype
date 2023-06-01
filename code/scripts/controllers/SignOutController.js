@@ -1,6 +1,6 @@
-import ModalController from "../../cardinal/controllers/base-controllers/ModalController.js";
+const {WebcController} = WebCardinal.controllers;
 
-export default class SignOutController extends ModalController {
+export default class SignOutController extends WebcController {
     constructor(element, history) {
         super(element, history);
 

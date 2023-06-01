@@ -73,7 +73,7 @@ export default class DeleteController extends ModalController {
             case 'csb':
             case 'dossier':
                 {
-                    this.dossierService.deleteDossier(path, name, (err) => {
+                    this.dossierService.unmountDSU(path, name, (err) => {
                         callback(err, name);
                     });
                     break;
