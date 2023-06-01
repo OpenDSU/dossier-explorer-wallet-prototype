@@ -1,13 +1,10 @@
 {
-    "name": "dossier-explorer",
-    "version": "v0.2.1",
-    "description": "Open Source Dossier Explorer",
+    "name": "dsu-explorer",
+    "version": "v1.0.0",
+    "description": "DSU Explorer",
     "scripts": {
-        "prebuild": "node ./node_modules/octopus/scripts/run prebuild devmode",
-        "build": "node ./node_modules/octopus/scripts/buildDSU.js"
+        "postinstall": "node ./node_modules/octopus/scripts/run dependencies devmode"
     },
-    "dependencies": {
-        "octopus": "git+https://github.com/opendsu/octopus.git"
-    },
+    "dependencies": {},
     "license": "MIT"
 }

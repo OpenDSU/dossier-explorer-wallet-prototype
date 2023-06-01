@@ -1,8 +1,7 @@
 {
-  "theme": "blue-fluorite-theme",
-  "version": "0.2",
+  "version": "1.0.0",
   "identity": {
-    "name": "Dossier Explorer",
+    "name": "DSU Explorer",
     "email": "",
     "avatar": "assets/images/dossier-explorer.png"
   },
