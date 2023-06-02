@@ -455,7 +455,6 @@ export default class ExplorerController extends WebcController {
     loader.hidden = false;
     this.service = await getNewDossierServiceInstance();
 
-    // this.service.beginBatch();
     for (let file of files) {
       let fileName = file.webkitRelativePath || file.name;
       let writeFileAsync = $$.promisify(this.service.writeFile, this.service);
