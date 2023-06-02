@@ -5,6 +5,10 @@
     "email": "",
     "avatar": "assets/images/dossier-explorer.png"
   },
+  "pagesFallback": {
+    "name": "home",
+    "src": "./explorer-page/explorer-page.html"
+  },
   "pages": [
     {
       "name": "Home",

@@ -22,8 +22,8 @@
             "actions": [
                 {
                     "type": "copy",
-                    "src": "../../opendsu-sdk/builds/output/iframeBoot.js",
-                    "target": "./scripts/bundles/iframeBoot.js"
+                    "src": "../../opendsu-sdk/builds/output/versionLessBoot.js",
+                    "target": "./scripts/bundles/versionLessBoot.js"
                 }
             ]
         }

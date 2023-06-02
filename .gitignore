@@ -3,5 +3,4 @@
 /node_modules
 /.idea
 bundles
-internal-volume
-seed
+initialEncryptionTest
