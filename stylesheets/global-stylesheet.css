@@ -1,7 +1,27 @@
 @import "../assets/css/fonts/fontawesome/css/all.min.css";
 
+div.container.app-container {
+    width: 100%;
+}
+
 .pointer-events-none {
     pointer-events: none;
+}
+
+#toasts {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    /*opacity: 70%;*/
+    width: 400px;
+}
+
+.toast {
+    background: #FFDEE2;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px;
 }
 
 .navigation-bar {

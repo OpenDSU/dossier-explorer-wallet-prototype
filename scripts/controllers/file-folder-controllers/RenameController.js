@@ -37,6 +37,8 @@ export default class RenameController extends WebcController {
             if (err) {
                 console.log(err);
                 // display warning for user in the UI
+                this.userInteractionService.showError("Error", "Rename failed.");
+                this.element.destroy();
                 return;
             }
             console.log("saved"); // display message for user in UI

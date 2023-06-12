@@ -49,6 +49,8 @@ export default class ReceiveDossierController extends WebcController {
             loader.hidden = true;
             if (err) {
                 // display warning for user in UI
+                this.userInteractionService.showError("Error", "Failed to import DSU.");
+                this.element.destroy();
             }
             console.log("imported dossier"); // display message for user in UI
             this.model.setChainValue("refresh", true);

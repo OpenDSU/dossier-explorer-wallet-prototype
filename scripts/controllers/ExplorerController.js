@@ -17,6 +17,7 @@ import moveViewModel from '../view-models/modals/actions-modals/moveViewModel.js
 import ExplorerNavigationController from "./ExplorerNavigationController.js";
 import Constants from "./Constants.js";
 import {getNewDossierServiceInstance} from "../service/NewDossierExplorerServiceWallet.js";
+import {getNewUserInteractionServiceInstance} from "../service/UserInteractionService.js";
 
 const {loader} = WebCardinal;
 
@@ -35,6 +36,8 @@ export default class ExplorerController extends WebcController {
     this.dossierService = await getNewDossierServiceInstance();
     this.feedbackController = new FeedbackController(this.model);
     this.explorerNavigator = new ExplorerNavigationController(element, history, this.model);
+
+    this.userInteractionService = await getNewUserInteractionServiceInstance();
 
     this._initListeners();
     this._checkForLandingApp();
@@ -110,6 +113,10 @@ export default class ExplorerController extends WebcController {
 
     this.onTagClick('create-dossier', this._createDossierHandler);
     this.onTagClick('receive-dossier', this._receiveDossierHandler);
+
+    this.onTagClick('TEMPORARY-DISPLAY-ERROR', () => {
+      this.userInteractionService.showError("Error", "this is a test to display a toast alert with an error message");
+    });
 
     this.element.querySelector('#add-menu-options').addEventListener('click', this.toggleAddMenu);
   };
@@ -190,6 +197,7 @@ export default class ExplorerController extends WebcController {
 
     this.dossierService.printDossierSeed(fullPath, applicationName, (err, keySSI) => {
       if (err) {
+        this.userInteractionService.showError("Error", "Could not print DSU seed.");
         return console.error(err);
       }
 
@@ -464,6 +472,7 @@ export default class ExplorerController extends WebcController {
       } catch (err) {
         if (err) {
           // display warning for user in UI
+          this.userInteractionService.showError("Error", "Failed to upload file.");
         }
       }
     }
@@ -553,6 +562,7 @@ export default class ExplorerController extends WebcController {
     // cwd += selectedItemName;
     this.service.unmountDSU(cwd, selectedItemName, (err, res) => {
       if (err) {
+        this.userInteractionService.showError("Error", "An error occurred during the unmount DSU operation.");
         return err;
       }
       this.refreshUI();

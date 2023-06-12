@@ -1,11 +1,16 @@
 <div class="explorer-container">
     <webc-container controller="ExplorerController">
         <div>
+            <div id="toasts"></div>
             <div class="navigation-bar" data-for="@breadcrumbs">
                 <span data-tag="go-to">{{ @label }} > </span>
             </div>
             <div class="add-menu">
                 <div id="add-menu-options">
+                    <button data-tag="TEMPORARY-DISPLAY-ERROR">
+                        TEMPORARY-DISPLAY-ERROR
+                    </button>
+
                     <button data-tag="create-file" id="create-file-button">
                         <span class="fa fa-file"></span>
                         New file

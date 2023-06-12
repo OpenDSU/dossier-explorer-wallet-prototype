@@ -39,6 +39,8 @@ export default class NewFileController extends WebcController {
             loader.hidden = true;
             if (err) {
                 // display warning for user in UI
+                this.userInteractionService.showError("Error", "Failed to create new file.");
+                this.element.destroy();
             }
             console.log("saved"); // display message for user in UI
             this.model.setChainValue("refresh", true);

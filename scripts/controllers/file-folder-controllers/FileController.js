@@ -67,7 +67,8 @@ export default class FileController extends WebcController {
             }
         }
         catch (err) {
-            console.error(err);
+            this.userInteractionService.showError("Error", "Failed to display file.");
+            this.element.destroy();
         }
         loader.hidden = true;
     }
@@ -78,6 +79,8 @@ export default class FileController extends WebcController {
         this.service.writeFile(this.model.filePath, this.fileContent, (err) => {
             if (err) {
                 // display warning for user in UI
+                this.userInteractionService.showError("Error", "Failed to save modifications.");
+                this.element.destroy();
             }
             console.log("saved"); // display message for user in UI
         });

@@ -38,6 +38,8 @@ export default class NewFolderController extends WebcController {
             loader.hidden = true;
             if (err) {
                 // display warning for user in UI
+                this.userInteractionService.showError("Error", "Failed to create new folder/directory.");
+                this.element.destroy();
             }
             console.log("created new folder"); // display message for user in UI
             this.model.setChainValue("refresh", true);

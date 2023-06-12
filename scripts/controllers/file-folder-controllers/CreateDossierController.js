@@ -1,4 +1,5 @@
 import {getNewDossierServiceInstance} from "../../service/NewDossierExplorerServiceWallet.js"
+import {getNewUserInteractionServiceInstance} from "../../service/UserInteractionService.js";
 
 const {WebcController} = WebCardinal.controllers;
 const {loader} = WebCardinal;
@@ -34,16 +35,21 @@ export default class CreateDossierController extends WebcController {
         }
         this.model.dossierNameComplete = true;
 
-        this.service.createDossier(path, this.model.dossierName, (err) => {
+        this.service.createDossier(path, this.model.dossierName, async (err) => {
+            this.userInteractionService = await getNewUserInteractionServiceInstance();
             loader.hidden = true;
             if (err) {
                 // display warning for user in UI
+                this.userInteractionService.showError("Error", "The creation of a DSU failed (01)");
+                this.element.destroy();
             }
             console.log("created dossier"); // display message for user in UI
 
             this.service.getSSIForMount(path + this.model.dossierName, (err, ssi) => {
                 if (err) {
                     // display warning for user in UI
+                    this.userInteractionService.showError("Error", "The creation of a DSU failed (02)");
+                    this.element.destroy();
                 }
                 this.model.keySSI = ssi;
                 this.model.setChainValue("refresh", true);

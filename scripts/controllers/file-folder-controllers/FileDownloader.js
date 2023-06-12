@@ -1,3 +1,5 @@
+import {getNewUserInteractionServiceInstance} from "../service/UserInteractionService.js";
+
 export default class FileDownloader {
 
     constructor(path, fileName) {
@@ -7,6 +9,12 @@ export default class FileDownloader {
         if (this.path === '/') {
             this.path = '';
         }
+
+        this.initUserInteractionService();
+    }
+
+    async initUserInteractionService() {
+        this.userInteractionService = await getNewUserInteractionServiceInstance();
     }
 
     downloadFile(callback) {
@@ -48,6 +56,7 @@ export default class FileDownloader {
                         });
                     });
                 } else {
+                    this.userInteractionService.showError("Error", "An error occurred while trying to download the file");
                     console.error(`Error on download file ${path}/${fileName}: `, response);
                 }
             });
