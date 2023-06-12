@@ -111,12 +111,8 @@ export default class ExplorerController extends WebcController {
     this.element.querySelector('#upload-folder').addEventListener('change', this._uploadFileHandler);
     this.onTagClick('upload-folder', this._triggerFolderSelect);
 
-    this.onTagClick('create-dossier', this._createDossierHandler);
-    this.onTagClick('receive-dossier', this._receiveDossierHandler);
-
-    this.onTagClick('TEMPORARY-DISPLAY-ERROR', () => {
-      this.userInteractionService.showError("Error", "this is a test to display a toast alert with an error message");
-    });
+    this.onTagClick('create-dsu', this._createDossierHandler);
+    this.onTagClick('receive-dsu', this._receiveDossierHandler);
 
     this.element.querySelector('#add-menu-options').addEventListener('click', this.toggleAddMenu);
   };
@@ -230,7 +226,7 @@ export default class ExplorerController extends WebcController {
       controller: "file-folder-controllers/CreateDossierController",
       model: this.model.modalState,
       disableFooter: true,
-      modalTitle: "Create Dossier"
+      modalTitle: "Create DSU"
     };
 
     this.model.onChange('modalState.refresh', this.refreshUI);
@@ -249,7 +245,7 @@ export default class ExplorerController extends WebcController {
       controller: "file-folder-controllers/ReceiveDossierController",
       model: this.model.modalState,
       disableFooter: true,
-      modalTitle: "Receive Dossier"
+      modalTitle: "Receive DSU"
     };
 
     this.model.onChange('modalState.refresh', this.refreshUI);
@@ -563,7 +559,7 @@ export default class ExplorerController extends WebcController {
     this.service.unmountDSU(cwd, selectedItemName, (err, res) => {
       if (err) {
         this.userInteractionService.showError("Error", "An error occurred during the unmount DSU operation.");
-        return err;
+        return;
       }
       this.refreshUI();
     })
@@ -617,12 +613,14 @@ export default class ExplorerController extends WebcController {
 
   _getSelectedItemAndWorkingDir = (name) => {
     if (!this.model.content.length) {
-      throw console.error('No content available');
+      this.userInteractionService.showError("Error", "No content available.");
+      return;
     }
 
     const selectedItem = this._getSelectedItem(name);
     if (!selectedItem) {
-      throw console.error('No item selected!');
+      this.userInteractionService.showError("Error", "No item selected!");
+      return;
     }
 
     return {

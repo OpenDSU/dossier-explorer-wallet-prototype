@@ -1,15 +1,15 @@
 <main>
     <div data-if="@dossierNameComplete">
         <div slot="false" class="modal-content-container" id="dossier-name">
-            <label for="dossier-name-input">Name the dossier</label>
+            <label for="dossier-name-input">Name the DSU</label>
             <input type="text" id="dossier-name-input" value="@dossierName">
             <div id="buttons">
                 <button class="secondary-choice-button" data-tag="cancel">Cancel</button>
-                <button class="modal-footer-button" data-tag="enter-seed">Enter Dossier SEED</button>
+                <button class="modal-footer-button" data-tag="enter-seed">Next</button>
             </div>
         </div>
         <div slot="true" class="modal-content-container">
-            <label for="key-ssi">Enter the dossier KeySSI you want to import</label>
+            <label for="key-ssi">Enter the KeySSI of the DSU you want to import</label>
             <input type="text" id="key-ssi" value="@keySSI">
             <button class="modal-footer-button" data-tag="finish">Finish</button>
         </div>

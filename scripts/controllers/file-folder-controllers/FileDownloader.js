@@ -1,4 +1,4 @@
-import {getNewUserInteractionServiceInstance} from "../service/UserInteractionService.js";
+import {getNewUserInteractionServiceInstance} from "../../service/UserInteractionService.js";
 
 export default class FileDownloader {
 
