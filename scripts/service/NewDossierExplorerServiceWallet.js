@@ -52,6 +52,10 @@ class NewDossierExplorerService {
             path = path.substring(0,path.length-1);
         }
         if (this.rawDossier) {
+
+            let stat = $$.promisify(rawDossier.stat);
+
+
             let content = await $$.promisify(rawDossier.readDir, rawDossier)(path, CONSTANTS.WITH_FILE_TYPES);
             let stateObj = {
                     path: path === '/' ? '' : path,
@@ -60,10 +64,15 @@ class NewDossierExplorerService {
                 }
 
             for (let element in content.files) {
+                let filename = content.files[element];
+                let filepath = path === '' ? '/' : path;
+                let stats = await stat(filepath + filename); // stats will be used to show 'last modified' in the filesystem table
+
                 stateObj.content.push({
-                    name: content.files[element],
+                    name: filename,
                     type: "file",
-                    isFile: true
+                    isFile: true,
+                    stats
                 });
             }
             for (let element in content.folders) {
