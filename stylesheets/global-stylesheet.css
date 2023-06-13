@@ -17,8 +17,29 @@ div.container.app-container {
     width: 400px;
 }
 
-.toast {
+.error-toast {
     background: #FFDEE2;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px;
+}
+
+.alert-toast {
+    background: #FFEFC9;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px;
+}
+
+.info-toast {
+    background: #DAFBFF;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px;
+}
+
+.confirm-toast {
+    background: #D8FFF2;
     border-radius: 8px;
     padding: 12px;
     margin: 8px;
