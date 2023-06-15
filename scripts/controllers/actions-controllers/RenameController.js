@@ -1,6 +1,6 @@
 import ModalController from "../../../cardinal/controllers/base-controllers/ModalController.js";
 import FeedbackController from "../FeedbackController.js";
-import Constants from "../Constants.js";
+import constants from "../../constants.js";
 import { getNewDossierServiceInstance } from "../../service/NewDossierExplorerServiceWallet.js";
 
 export default class RenameController extends ModalController {
@@ -36,11 +36,11 @@ export default class RenameController extends ModalController {
         }
 
         if (!newFileName.trim().length) {
-            return this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.nameNotEmpty);
+            return this.feedbackController.updateDisplayedMessage(constants.ERROR, this.model.error.labels.nameNotEmpty);
         }
 
         if (newFileName.indexOf('/') !== -1) {
-            return this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.specialCharacters);
+            return this.feedbackController.updateDisplayedMessage(constants.ERROR, this.model.error.labels.specialCharacters);
         }
 
         const oldPath = `${currentPath}/${oldFileName}`;
@@ -50,7 +50,7 @@ export default class RenameController extends ModalController {
             this.feedbackController.setLoadingState();
             if (err) {
                 console.error(err);
-                return this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
+                return this.feedbackController.updateDisplayedMessage(constants.ERROR, err);
             }
 
             this.responseCallback(undefined, {

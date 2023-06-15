@@ -2,7 +2,7 @@ import FeedbackController from "./FeedbackController.js";
 
 import walletContentViewModel from '../view-models/walletContentViewModel.js';
 import viewFileViewModel from "../view-models/modals/file-folder-modals/viewFileViewModel.js";
-import Constants from "./Constants.js";
+import constants from "./../constants.js";
 import { getNewDossierServiceInstance } from "../service/NewDossierExplorerServiceWallet.js";
 
 const {WebcController} = WebCardinal.controllers;
@@ -262,7 +262,7 @@ export default class ExplorerNavigationController extends WebcController {
 
         if (err) {
             this.feedbackController.setLoadingState(false);
-            this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
+            this.feedbackController.updateDisplayedMessage(constants.ERROR, err);
             this.model.setChainValue('content', newContent);
             return console.error(err);
         }
@@ -270,7 +270,7 @@ export default class ExplorerNavigationController extends WebcController {
         this._filterExcludedRootNames(dirContent, (err, newDirContent) => {
             if (err) {
                 this.feedbackController.setLoadingState(false);
-                this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
+                this.feedbackController.updateDisplayedMessage(constants.ERROR, err);
                 this.model.setChainValue('content', newContent);
                 return console.error(err);
             }

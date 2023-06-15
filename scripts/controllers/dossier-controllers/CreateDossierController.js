@@ -1,6 +1,6 @@
 import ModalController from "../../../cardinal/controllers/base-controllers/ModalController.js";
 import FeedbackController from "../FeedbackController.js";
-import Constants from "../Constants.js";
+import constants from "../../constantsy.js";
 import { getNewDossierServiceInstance } from "../../service/NewDossierExplorerServiceWallet.js";
 
 export default class CreateDossierController extends ModalController {
@@ -26,7 +26,7 @@ export default class CreateDossierController extends ModalController {
 
     _setNameForNewDossier = (event) => {
         event.stopImmediatePropagation();
-        this.feedbackController.updateDisplayedMessage(Constants.ERROR);
+        this.feedbackController.updateDisplayedMessage(constants.ERROR);
 
         if (!this._validateInput()) {
             return;
@@ -42,11 +42,11 @@ export default class CreateDossierController extends ModalController {
         this.dossierService.readDir(this.wDir, (err, dirContent) => {
             if (err) {
                 this.feedbackController.setLoadingState();
-                this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
+                this.feedbackController.updateDisplayedMessage(constants.ERROR, err);
             } else {
                 if (dirContent.find((el) => el.path === this.dossierName)) {
                     this.feedbackController.setLoadingState();
-                    this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.entryExists);
+                    this.feedbackController.updateDisplayedMessage(constants.ERROR, this.model.error.labels.entryExists);
                 } else {
                     this._createDossier();
                 }
@@ -59,7 +59,7 @@ export default class CreateDossierController extends ModalController {
             this.feedbackController.setLoadingState();
             if (err) {
                 console.log(err);
-                this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
+                this.feedbackController.updateDisplayedMessage(constants.ERROR, err);
             } else {
                 this.model.dossierSeedOutput.value = outputSEED;
                 this.model.conditionalExpressions.isDossierNameStep = false;
@@ -77,7 +77,7 @@ export default class CreateDossierController extends ModalController {
     };
 
     _validateInput = () => {
-        this.feedbackController.updateDisplayedMessage(Constants.ERROR);
+        this.feedbackController.updateDisplayedMessage(constants.ERROR);
 
         const value = this.model.dossierNameInput.value;
         const isEmptyName = value.trim().length === 0;
@@ -85,7 +85,7 @@ export default class CreateDossierController extends ModalController {
         this.model.setChainValue('buttons.createDossier.disabled', isEmptyName || hasWhiteSpaces);
 
         if (isEmptyName || hasWhiteSpaces) {
-            this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.nameNotValid);
+            this.feedbackController.updateDisplayedMessage(constants.ERROR, this.model.error.labels.nameNotValid);
             return false;
         }
 

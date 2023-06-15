@@ -15,7 +15,7 @@ import renameViewModel from '../view-models/modals/actions-modals/renameViewMode
 import moveViewModel from '../view-models/modals/actions-modals/moveViewModel.js';
 
 import ExplorerNavigationController from "./ExplorerNavigationController.js";
-import Constants from "./Constants.js";
+import constants from "./../constants.js";
 import {getNewDossierServiceInstance} from "../service/NewDossierExplorerServiceWallet.js";
 import {getNewUserInteractionServiceInstance} from "../service/UserInteractionService.js";
 
@@ -110,7 +110,7 @@ export default class ExplorerController extends WebcController {
     this.onTagClick('upload-file', this._triggerFileSelect);
     this.element.querySelector('#upload-folder').addEventListener('change', this._uploadFileHandler);
     this.onTagClick('upload-folder', this._triggerFolderSelect);
-
+    this.onTagClick("add-bdns", this._updateBDNSHandler);
     this.onTagClick('create-dsu', this._createDossierHandler);
     this.onTagClick('receive-dsu', this._receiveDossierHandler);
 
@@ -263,7 +263,7 @@ export default class ExplorerController extends WebcController {
 
     const name = selectedItem.name;
     if (name === 'manifest') {
-      return this.feedbackEmitter(this.model.error.labels.manifestManipulationError, null, Constants.ERROR_FEEDBACK_TYPE);
+      return this.feedbackEmitter(this.model.error.labels.manifestManipulationError, null, constants.ERROR_FEEDBACK_TYPE);
     }
 
     deleteViewModel.path = currentPath;
@@ -272,12 +272,12 @@ export default class ExplorerController extends WebcController {
 
     this.showModal('deleteModal', deleteViewModel, (err, response) => {
       if (err) {
-        return this.feedbackEmitter(err, null, Constants.ERROR_FEEDBACK_TYPE);
+        return this.feedbackEmitter(err, null, constants.ERROR_FEEDBACK_TYPE);
       }
 
-      const successMessage = this.model[Constants.SUCCESS].delete
-        .replace(Constants.NAME_PLACEHOLDER, response.name);
-      this.feedbackEmitter(successMessage, null, Constants.SUCCESS_FEEDBACK_TYPE);
+      const successMessage = this.model[constants.SUCCESS].delete
+        .replace(constants.NAME_PLACEHOLDER, response.name);
+      this.feedbackEmitter(successMessage, null, constants.SUCCESS_FEEDBACK_TYPE);
       this.explorerNavigator.listDossierContent();
     });
   };
@@ -308,7 +308,7 @@ export default class ExplorerController extends WebcController {
     //
     // const name = selectedItem.name;
     // if (name === 'manifest') {
-    //     return this.feedbackEmitter(this.model.error.labels.manifestManipulationError, null, Constants.ERROR_FEEDBACK_TYPE);
+    //     return this.feedbackEmitter(this.model.error.labels.manifestManipulationError, null, constants.ERROR_FEEDBACK_TYPE);
     // }
     //
     // renameViewModel.fileNameInput.value = name;
@@ -318,14 +318,14 @@ export default class ExplorerController extends WebcController {
     //
     // this.showModal('renameModal', renameViewModel, (err, response) => {
     //     if (err) {
-    //         return this.feedbackEmitter(err, null, Constants.ERROR_FEEDBACK_TYPE);
+    //         return this.feedbackEmitter(err, null, constants.ERROR_FEEDBACK_TYPE);
     //     }
     //
     //     if (!response.cancel) {
-    //         const successMessage = this.model[Constants.SUCCESS].rename
-    //             .replace(Constants.FROM_PLACEHOLDER, response.from)
-    //             .replace(Constants.TO_PLACEHOLDER, response.to);
-    //         this.feedbackEmitter(successMessage, null, Constants.SUCCESS_FEEDBACK_TYPE);
+    //         const successMessage = this.model[constants.SUCCESS].rename
+    //             .replace(constants.FROM_PLACEHOLDER, response.from)
+    //             .replace(constants.TO_PLACEHOLDER, response.to);
+    //         this.feedbackEmitter(successMessage, null, constants.SUCCESS_FEEDBACK_TYPE);
     //         this.explorerNavigator.listDossierContent();
     //     }
     // });
@@ -341,7 +341,7 @@ export default class ExplorerController extends WebcController {
     } = this._getSelectedItemAndWorkingDir(event.data);
 
     if (selectedItem.name === 'manifest') {
-      return this.feedbackEmitter(this.model.error.labels.manifestManipulationError, null, Constants.ERROR_FEEDBACK_TYPE);
+      return this.feedbackEmitter(this.model.error.labels.manifestManipulationError, null, constants.ERROR_FEEDBACK_TYPE);
     }
 
     moveViewModel.selectedEntryName = selectedItem.name;
@@ -355,15 +355,15 @@ export default class ExplorerController extends WebcController {
 
     this.showModal('moveModal', moveViewModel, (err, response) => {
       if (err) {
-        return this.feedbackEmitter(err, null, Constants.ERROR_FEEDBACK_TYPE);
+        return this.feedbackEmitter(err, null, constants.ERROR_FEEDBACK_TYPE);
       }
 
       if (!response.cancel) {
-        const successMessage = this.model[Constants.SUCCESS].move
-          .replace(Constants.NAME_PLACEHOLDER, response.name)
-          .replace(Constants.FROM_PLACEHOLDER, response.from)
-          .replace(Constants.TO_PLACEHOLDER, response.to);
-        this.feedbackEmitter(successMessage, null, Constants.SUCCESS_FEEDBACK_TYPE);
+        const successMessage = this.model[constants.SUCCESS].move
+          .replace(constants.NAME_PLACEHOLDER, response.name)
+          .replace(constants.FROM_PLACEHOLDER, response.from)
+          .replace(constants.TO_PLACEHOLDER, response.to);
+        this.feedbackEmitter(successMessage, null, constants.SUCCESS_FEEDBACK_TYPE);
         this.explorerNavigator.listDossierContent();
       }
     });
@@ -383,7 +383,7 @@ export default class ExplorerController extends WebcController {
 
     this.showModal('shareDossierModal', shareDossierViewModel, (err) => {
       if (err) {
-        this.feedbackEmitter(err, null, Constants.ERROR_FEEDBACK_TYPE);
+        this.feedbackEmitter(err, null, constants.ERROR_FEEDBACK_TYPE);
       }
     });
   };
@@ -405,6 +405,21 @@ export default class ExplorerController extends WebcController {
     this.model.onChange('modalState.refresh', this.refreshUI);
     this.showModalFromTemplate('new-file-modal', this.refreshUI, this.refreshUI, modalOptions);
   };
+
+  _updateBDNSHandler = (model, target, event) => {
+    event.stopImmediatePropagation();
+
+    this.model.modalState = {userInteractionService: this.userInteractionService, refreshUI: this.refreshUI};
+    let modalOptions = {
+      controller: "modals/BDNSController",
+      model: this.model.modalState,
+      modalTitle: "Update BDNS"
+    };
+
+    this.model.onChange('modalState.refresh', this.refreshUI);
+    this.showModalFromTemplate('add-bdns-modal', this.refreshUI, this.refreshUI, modalOptions);
+
+  }
 
   _addNewFolderHandler = (model, target, event) => {
     event.stopImmediatePropagation();

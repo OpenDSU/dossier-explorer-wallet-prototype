@@ -1,0 +1,36 @@
+<main>
+    <div class="modal-content-container">
+        <label for="file-content-textarea">Add BDNS</label> or
+        <div>
+            <button class="file-upload-button" data-tag="upload-file">
+                <span class="fa fa-file"></span>
+                Upload from file
+            </button>
+            <button class="file-upload-button" data-tag="toggle-view-bdns">
+                <span class="fa fa-file"></span>
+                {{@BDNSButtonLabel}}
+            </button>
+        </div>
+        <input type="file" id="upload-bdns-file" multiple class="hidden" accept="application/JSON"/>
+        <textarea id="file-content-textarea" rows="10"></textarea>
+
+
+        <div class="current-bdns-preview hidden">
+            <pre> <code> {{@currentBdns}} </code></pre>
+        </div>
+    </div>
+</main>
+<div id="buttons" slot="footer">
+    <button class="secondary-choice-button" data-tag="cancel">Cancel</button>
+    <button class="modal-footer-button" data-tag="update-bdns">Update BDNS</button>
+</div>
+<style>
+    textarea {
+        max-width: 100%;
+        min-height: 180px;
+    }
+
+    .modal-content-container button {
+        width: fit-content;
+    }
+</style>

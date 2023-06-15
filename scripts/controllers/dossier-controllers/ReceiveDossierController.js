@@ -1,6 +1,6 @@
 import ModalController from "../../../cardinal/controllers/base-controllers/ModalController.js";
 import FeedbackController from "../FeedbackController.js";
-import Constants from "../Constants.js";
+import constants from "../../constants.js";
 import { getNewDossierServiceInstance } from "../../service/NewDossierExplorerServiceWallet.js";
 
 export default class ReceiveDossierController extends ModalController {
@@ -33,7 +33,7 @@ export default class ReceiveDossierController extends ModalController {
     _setNameForImportedDossier = (event) => {
         event.stopImmediatePropagation();
 
-        this.feedbackController.updateDisplayedMessage(Constants.ERROR);
+        this.feedbackController.updateDisplayedMessage(constants.ERROR);
 
         if (!this._validateInput()) {
             return;
@@ -49,10 +49,10 @@ export default class ReceiveDossierController extends ModalController {
         this.dossierService.readDir(this.wDir, (err, dirContent) => {
             this.feedbackController.setLoadingState();
             if (err) {
-                this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
+                this.feedbackController.updateDisplayedMessage(constants.ERROR, err);
             } else {
                 if (dirContent.find((el) => el.path === this.dossierName)) {
-                    this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.entryExists);
+                    this.feedbackController.updateDisplayedMessage(constants.ERROR, this.model.error.labels.entryExists);
                 } else {
                     // Go to the next step, where the user provides the SEED for the dossier
                     const nextStep = event.data;
@@ -75,7 +75,7 @@ export default class ReceiveDossierController extends ModalController {
             this.feedbackController.setLoadingState();
             if (err) {
                 console.log(err);
-                this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
+                this.feedbackController.updateDisplayedMessage(constants.ERROR, err);
             } else {
                 this.responseCallback(undefined, {
                     name: this.dossierName,
@@ -86,7 +86,7 @@ export default class ReceiveDossierController extends ModalController {
     };
 
     _validateInput = () => {
-        this.feedbackController.updateDisplayedMessage(Constants.ERROR);
+        this.feedbackController.updateDisplayedMessage(constants.ERROR);
 
         const value = this.model.dossierNameInput.value;
         const isEmptyName = value.trim().length === 0;
@@ -96,7 +96,7 @@ export default class ReceiveDossierController extends ModalController {
         this.model.setChainValue('buttons.enterSeedButton.disabled', disabledButton);
 
         if (disabledButton) {
-            this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.nameNotValid);
+            this.feedbackController.updateDisplayedMessage(constants.ERROR, this.model.error.labels.nameNotValid);
             return false;
         }
 
@@ -104,13 +104,13 @@ export default class ReceiveDossierController extends ModalController {
     };
 
     _validateSEED = (SEED) => {
-        this.feedbackController.updateDisplayedMessage(Constants.ERROR);
+        this.feedbackController.updateDisplayedMessage(constants.ERROR);
         let isEmptySeed = SEED.trim().length === 0;
 
         this.model.setChainValue('buttons.finishButton.disabled', isEmptySeed);
 
         if (isEmptySeed) {
-            this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.seedNotEmpty);
+            this.feedbackController.updateDisplayedMessage(constants.ERROR, this.model.error.labels.seedNotEmpty);
         } else {
             this.SEED = SEED;
         }

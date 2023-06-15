@@ -1,5 +1,5 @@
-import { getParentDossier } from "./commons.js";
-import { CONSTANTS } from "./constants.js";
+import utils from "../utils/utils.js";
+import constants from "./../constants.js";
 import { checkForApplications } from "./DirectoryDetailsUtils.js";
 const keyssiresolver = require("opendsu").loadApi("resolver");
 
@@ -26,7 +26,7 @@ class NewDossierExplorerService {
 
     readDirDetailed(path, callback) {
         if (this.rawDossier) {
-            return this.rawDossier.readDir(path, CONSTANTS.WITH_FILE_TYPES, (err, content) => {
+            return this.rawDossier.readDir(path, constants.WITH_FILE_TYPES, (err, content) => {
                 if (err) {
                     callback(err);
                 }
@@ -56,7 +56,7 @@ class NewDossierExplorerService {
             let stat = $$.promisify(rawDossier.stat);
 
 
-            let content = await $$.promisify(rawDossier.readDir, rawDossier)(path, CONSTANTS.WITH_FILE_TYPES);
+            let content = await $$.promisify(rawDossier.readDir, rawDossier)(path, constants.WITH_FILE_TYPES);
             let stateObj = {
                     path: path === '/' ? '' : path,
                     content: [],
@@ -219,7 +219,7 @@ class NewDossierExplorerService {
 
     async unmountDSU(path, name, callback) {
         if (this.rawDossier) {
-            return getParentDossier(this.rawDossier, path, (err, parentKeySSI, relativePath) => {
+            return utils.getParentDossier(this.rawDossier, path, (err, parentKeySSI, relativePath) => {
                 if (err) {
                     console.log(err);
                     return callback(err);
@@ -271,7 +271,7 @@ class NewDossierExplorerService {
     }
 
     async mountDossier(path, keySSI, dossierName, callback) {
-        getParentDossier(this.rawDossier, path, (err, parentKeySSI, relativePath) => {
+        utils.getParentDossier(this.rawDossier, path, (err, parentKeySSI, relativePath) => {
             if (err) {
                 return callback(err);
             }

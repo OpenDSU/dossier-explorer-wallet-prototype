@@ -1,6 +1,6 @@
 import ModalController from "../../../cardinal/controllers/base-controllers/ModalController.js";
 import FeedbackController from "../FeedbackController.js";
-import Constants from "../Constants.js";
+import constants from "../../constants.js";
 import { getNewDossierServiceInstance } from "../../service/NewDossierExplorerServiceWallet.js";
 
 export default class DeleteController extends ModalController {
@@ -27,7 +27,7 @@ export default class DeleteController extends ModalController {
      */
     _updateNotificationMessage() {
         let message = this.model.notificationMessage;
-        message = message.replace(Constants.DELETE_ITEMS_PLACEHOLDER, this.model.selectedItemName);
+        message = message.replace(constants.DELETE_ITEMS_PLACEHOLDER, this.model.selectedItemName);
 
         this.model.setChainValue('notificationMessage', message);
     }

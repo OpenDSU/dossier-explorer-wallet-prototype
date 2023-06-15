@@ -1,7 +1,7 @@
 import ModalController from "../../../cardinal/controllers/base-controllers/ModalController.js";
 
 import FeedbackController from "../FeedbackController.js";
-import Constants from "../Constants.js";
+import constants from "../../constants.js";
 import { getNewDossierServiceInstance } from "../../service/NewDossierExplorerServiceWallet.js";
 
 export default class ShareDossierController extends ModalController {
@@ -34,7 +34,7 @@ export default class ShareDossierController extends ModalController {
             this.feedbackController.setLoadingState();
             if (err) {
                 console.error(err);
-                this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
+                this.feedbackController.updateDisplayedMessage(constants.ERROR, err);
             } else {
                 this.model.setChainValue('dossierSEEDInput.value', seed);
                 this.model.setChainValue('qrCode.data', seed);

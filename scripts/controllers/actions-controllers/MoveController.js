@@ -1,7 +1,7 @@
 import ModalController from "../../../cardinal/controllers/base-controllers/ModalController.js";
 import FeedbackController from "../FeedbackController.js";
 import ExplorerNavigationController from "../ExplorerNavigationController.js";
-import Constants from "../Constants.js";
+import constants from "../../constants.js";
 import { getNewDossierServiceInstance } from "../../service/NewDossierExplorerServiceWallet.js";
 
 export default class MoveController extends ModalController {
@@ -49,7 +49,7 @@ export default class MoveController extends ModalController {
         const newPath = `${currentPath}/${selectedEntryName}`;
 
         if (oldPath === newPath) {
-            return this.feedbackController.updateDisplayedMessage(Constants.ERROR, this.model.error.labels.samePathError);
+            return this.feedbackController.updateDisplayedMessage(constants.ERROR, this.model.error.labels.samePathError);
         }
 
         this.feedbackController.setLoadingState(true);
@@ -57,7 +57,7 @@ export default class MoveController extends ModalController {
             this.feedbackController.setLoadingState();
             if (err) {
                 console.error(err);
-                return this.feedbackController.updateDisplayedMessage(Constants.ERROR, err);
+                return this.feedbackController.updateDisplayedMessage(constants.ERROR, err);
             }
 
             this.responseCallback(undefined, {

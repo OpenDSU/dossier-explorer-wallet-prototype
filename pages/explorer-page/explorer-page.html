@@ -1,7 +1,6 @@
 <div class="explorer-container">
     <webc-container controller="ExplorerController">
         <div>
-            <div id="toasts"></div>
             <div class="navigation-bar" data-for="@breadcrumbs">
                 <span data-tag="go-to">{{ @label }} > </span>
             </div>
@@ -39,6 +38,12 @@
                         <span class="fa fa-upload"></span>
                         Receive DSU
                     </button>
+
+                    <button data-tag="add-bdns" id="add-bdns">
+                        <span class="fa fa-file"></span>
+                        BDNS
+                    </button>
+
                 </div>
 
             </div>

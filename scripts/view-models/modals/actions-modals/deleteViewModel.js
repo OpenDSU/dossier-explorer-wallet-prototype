@@ -1,8 +1,8 @@
-import Constants from "../../../controllers/Constants.js";
+import constants from "../../../constants.js";
 
 const deleteViewModel = {
     title: "Notification",
-    notificationMessage: `Are you sure you want to delete ${Constants.DELETE_ITEMS_PLACEHOLDER}?`,
+    notificationMessage: `Are you sure you want to delete ${constants.DELETE_ITEMS_PLACEHOLDER}?`,
     buttons: {
         cancelButton: {
             label: "Cancel",
