@@ -23,7 +23,10 @@
                 {
                     "type": "copy",
                     "src": "../../opendsu-sdk/builds/output/versionLessBoot.js",
-                    "target": "./scripts/bundles/versionLessBoot.js"
+                    "target": "./scripts/bundles/versionLessBoot.js",
+                    "options": {
+                        "overwrite": true
+                    }
                 }
             ]
         }
