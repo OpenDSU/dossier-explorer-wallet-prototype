@@ -3,6 +3,8 @@ const {setConfig, getConfig, addHook, addControllers} = WebCardinal.preload;
 import constants from "./constants.js";
 import utils from "./utils/utils.js";
 
+$$.LEGACY_BEHAVIOUR_ENABLED = true;
+
 function initializeWebCardinalConfig() {
   const config = getConfig();
 
